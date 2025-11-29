@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Watch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <!-- Critical CSS - Load first -->
+    <link rel="stylesheet" href="css/modern-ui.css">
+    
+    <!-- Non-critical CSS - Load after -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/holographic.css">
+    <link rel="stylesheet" href="css/dashboard-navigation.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
+    <link rel="stylesheet" href="css/new-sections.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body class="dark-theme" data-theme="dark">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>AirWatch AI</h2>
+                    <span>Delhi-NCR Monitor</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="source_analysis.html" class="nav-link">Source Analysis</a>
+                <a href="citizen_portal.html" class="nav-link">Community</a>
+                <a href="policy_dashboard.html" class="nav-link active">Policy Dashboard</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-back" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+                <button class="btn-notification" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="theme-toggle-container">
+                    <button class="btn-theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="theme-menu" id="themeMenu">
+                        <div class="theme-option active" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option" data-theme="auto">
+                            <i class="fas fa-adjust"></i>
+                            <span>Auto</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="background: var(--bg-primary, #0f172a); color: var(--text-primary, #ffffff); min-height: 100vh; padding-top: 100px;">
+        <!-- Page Header -->
+        <div class="page-header" style="background: var(--bg-secondary, #1e293b); color: var(--text-primary, #ffffff); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+            <div class="header-content">
+                <h1 style="color: var(--text-primary, #ffffff); margin-bottom: 0.5rem;">Policy Effectiveness Dashboard</h1>
+                <p style="color: var(--text-secondary, #94a3b8);">Monitor and analyze the impact of pollution control policies in Delhi-NCR</p>
+            </div>
+            <div class="header-stats" style="display: flex; gap: 2rem; margin-top: 1.5rem;">
+                <div class="stat-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                    <span class="stat-label" style="color: var(--text-secondary, #94a3b8); display: block; font-size: 0.875rem; margin-bottom: 0.5rem;">Active Policies</span>
+                    <span class="stat-value" style="color: var(--primary-color, #3b82f6); font-size: 1.5rem; font-weight: 700;">4</span>
+                </div>
+                <div class="stat-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                    <span class="stat-label" style="color: var(--text-secondary, #94a3b8); display: block; font-size: 0.875rem; margin-bottom: 0.5rem;">Avg Effectiveness</span>
+                    <span class="stat-value" style="color: var(--success-color, #10b981); font-size: 1.5rem; font-weight: 700;">78%</span>
+                </div>
+                <div class="stat-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                    <span class="stat-label" style="color: var(--text-secondary, #94a3b8); display: block; font-size: 0.875rem; margin-bottom: 0.5rem;">AQI Reduction</span>
+                    <span class="stat-value" style="color: var(--warning-color, #f59e0b); font-size: 1.5rem; font-weight: 700;">-35</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Policy Dashboard Container -->
+        <div class="policy-dashboard-container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <!-- Policy Controls -->
+            <div class="policy-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; gap: 2rem; flex-wrap: wrap;">
+                <div class="policy-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="policy-btn active" data-policy="odd-even" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--primary-color, #3b82f6); border: 1px solid var(--primary-color, #3b82f6); border-radius: 8px; color: white; cursor: pointer; font-size: 0.9rem;">
+                        <i class="fas fa-car"></i>
+                        <span>Odd-Even</span>
+                    </button>
+                    <button class="policy-btn" data-policy="construction-ban" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; color: var(--text-secondary, #94a3b8); cursor: pointer; font-size: 0.9rem;">
+                        <i class="fas fa-hammer"></i>
+                        <span>Construction Ban</span>
+                    </button>
+                    <button class="policy-btn" data-policy="industrial-shutdown" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; color: var(--text-secondary, #94a3b8); cursor: pointer; font-size: 0.9rem;">
+                        <i class="fas fa-industry"></i>
+                        <span>Industrial Shutdown</span>
+                    </button>
+                    <button class="policy-btn" data-policy="public-transport" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; color: var(--text-secondary, #94a3b8); cursor: pointer; font-size: 0.9rem;">
+                        <i class="fas fa-bus"></i>
+                        <span>Public Transport</span>
+                    </button>
+                </div>
+                <div class="action-buttons" style="display: flex; gap: 1rem;">
+                    <button class="action-btn primary" id="startPolicy" onclick="handleStartIntervention(event)" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--primary-color, #3b82f6); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600;">
+                        <i class="fas fa-play"></i>
+                        <span>Start Intervention</span>
+                    </button>
+                    <button class="action-btn secondary" id="predictPolicy" onclick="handlePredictImpact(event)" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; color: var(--text-primary, #ffffff); cursor: pointer; font-weight: 600;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Predict Impact</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Policy Grid -->
+            <div class="policy-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                <!-- Active Interventions Card -->
+                <div class="active-interventions-card holographic-card" style="grid-column: span 2; background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 12px; padding: 1.5rem;">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                        <h3 style="color: var(--text-primary, #ffffff); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-tasks" style="color: var(--primary-color, #3b82f6);"></i>
+                            Active Interventions
+                        </h3>
+                        <span class="header-badge" style="padding: 0.25rem 0.75rem; background: var(--success-color, #10b981); color: white; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">2 Active</span>
+                    </div>
+                    <div class="interventions-list" id="interventionsList" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="intervention-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h4 style="color: var(--text-primary, #ffffff); margin: 0 0 0.25rem 0;">Odd-Even Vehicle Policy</h4>
+                                    <p style="color: var(--text-secondary, #94a3b8); margin: 0; font-size: 0.875rem;">Started 2 hours ago</p>
+                                </div>
+                                <span style="padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success-color, #10b981); border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Active</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;">
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">Effectiveness</span>
+                                    <span style="display: block; color: var(--text-primary, #ffffff); font-size: 1.25rem; font-weight: 700;">78%</span>
+                                </div>
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">AQI Reduction</span>
+                                    <span style="display: block; color: var(--success-color, #10b981); font-size: 1.25rem; font-weight: 700;">-25</span>
+                                </div>
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">Duration</span>
+                                    <span style="display: block; color: var(--text-primary, #ffffff); font-size: 1.25rem; font-weight: 700;">2h</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intervention-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h4 style="color: var(--text-primary, #ffffff); margin: 0 0 0.25rem 0;">Construction Ban</h4>
+                                    <p style="color: var(--text-secondary, #94a3b8); margin: 0; font-size: 0.875rem;">Started 5 hours ago</p>
+                                </div>
+                                <span style="padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success-color, #10b981); border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Active</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;">
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">Effectiveness</span>
+                                    <span style="display: block; color: var(--text-primary, #ffffff); font-size: 1.25rem; font-weight: 700;">85%</span>
+                                </div>
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">AQI Reduction</span>
+                                    <span style="display: block; color: var(--success-color, #10b981); font-size: 1.25rem; font-weight: 700;">-40</span>
+                                </div>
+                                <div>
+                                    <span style="display: block; color: var(--text-secondary, #94a3b8); font-size: 0.8rem; margin-bottom: 0.25rem;">Duration</span>
+                                    <span style="display: block; color: var(--text-primary, #ffffff); font-size: 1.25rem; font-weight: 700;">5h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Policy Effectiveness Card -->
+                <div class="effectiveness-card holographic-card" style="background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 12px; padding: 1.5rem;">
+                    <div class="card-header" style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-primary, #ffffff); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-chart-bar" style="color: var(--primary-color, #3b82f6);"></i>
+                            Policy Effectiveness
+                        </h3>
+                    </div>
+                    <div class="effectiveness-chart" style="height: 250px; display: flex; align-items: center; justify-content: center; background: var(--bg-primary, #0f172a); border-radius: 8px; color: var(--text-secondary, #94a3b8);">
+                        <canvas id="effectivenessChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AI Recommendations Card -->
+                <div class="recommendations-card holographic-card" style="background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 12px; padding: 1.5rem;">
+                    <div class="card-header" style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-primary, #ffffff); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-robot" style="color: var(--secondary-color, #8b5cf6);"></i>
+                            AI Recommendations
+                        </h3>
+                    </div>
+                    <div class="recommendations-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="recommendation-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary-color, #3b82f6);">
+                            <h4 style="color: var(--text-primary, #ffffff); margin: 0 0 0.5rem 0; font-size: 0.9rem;">Extend Odd-Even Policy</h4>
+                            <p style="color: var(--text-secondary, #94a3b8); margin: 0; font-size: 0.85rem;">Current policy shows 78% effectiveness. Consider extending to weekends for maximum impact.</p>
+                        </div>
+                        <div class="recommendation-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--success-color, #10b981);">
+                            <h4 style="color: var(--text-primary, #ffffff); margin: 0 0 0.5rem 0; font-size: 0.9rem;">Implement Staggered Timings</h4>
+                            <p style="color: var(--text-secondary, #94a3b8); margin: 0; font-size: 0.85rem;">Stagger office hours to reduce peak-hour traffic congestion and emissions.</p>
+                        </div>
+                        <div class="recommendation-item" style="background: var(--bg-primary, #0f172a); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--warning-color, #f59e0b);">
+                            <h4 style="color: var(--text-primary, #ffffff); margin: 0 0 0.5rem 0; font-size: 0.9rem;">Enhance Public Transport</h4>
+                            <p style="color: var(--text-secondary, #94a3b8); margin: 0; font-size: 0.85rem;">Increase metro and bus frequency during peak hours to support policy compliance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/simple-navigation.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/new-sections.js"></script>
+    <script>
+        // Global button handlers - work even if PolicyManager isn't ready
+        async function handleStartIntervention(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('=== Start Intervention clicked (global handler) ===');
+            
+            // Ensure PolicyManager is available
+            if (!window.policyManager) {
+                if (window.PolicyManager) {
+                    window.policyManager = new window.PolicyManager();
+                    console.log('PolicyManager created from global handler');
+                } else {
+                    console.error('PolicyManager class not found');
+                    alert('Policy Manager is loading. Please wait a moment and try again.');
+                    return;
+                }
+            }
+            
+            if (window.policyManager && typeof window.policyManager.startPolicyIntervention === 'function') {
+                try {
+                    await window.policyManager.startPolicyIntervention();
+                } catch (error) {
+                    console.error('Error in startPolicyIntervention:', error);
+                    alert('Error starting intervention: ' + error.message);
+                }
+            } else {
+                console.error('startPolicyIntervention method not available');
+                alert('Start Intervention feature is not available. Please refresh the page.');
+            }
+        }
+        
+        async function handlePredictImpact(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('=== Predict Impact clicked (global handler) ===');
+            
+            // Ensure PolicyManager is available
+            if (!window.policyManager) {
+                if (window.PolicyManager) {
+                    window.policyManager = new window.PolicyManager();
+                    console.log('PolicyManager created from global handler');
+                } else {
+                    console.error('PolicyManager class not found');
+                    alert('Policy Manager is loading. Please wait a moment and try again.');
+                    return;
+                }
+            }
+            
+            if (window.policyManager && typeof window.policyManager.predictPolicyEffectiveness === 'function') {
+                try {
+                    await window.policyManager.predictPolicyEffectiveness();
+                } catch (error) {
+                    console.error('Error in predictPolicyEffectiveness:', error);
+                    alert('Error predicting impact: ' + error.message);
+                }
+            } else {
+                console.error('predictPolicyEffectiveness method not available');
+                alert('Predict Impact feature is not available. Please refresh the page.');
+            }
+        }
+        
+    </script>
+    <script>
+        // Ensure dark theme is applied on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!document.body.hasAttribute('data-theme')) {
+                document.body.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-theme');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
+            // Initialize theme manager if available
+            if (typeof window.themeManager !== 'undefined') {
+                window.themeManager.init();
+            } else if (typeof ThemeManager !== 'undefined') {
+                window.themeManager = new ThemeManager();
+            }
+            
+            // Initialize PolicyManager - wait for script to load
+            function initPolicyManager() {
+                // Check if PolicyManager is available (either as window.PolicyManager or PolicyManager)
+                const PolicyManagerClass = window.PolicyManager || (typeof PolicyManager !== 'undefined' ? PolicyManager : null);
+                
+                if (PolicyManagerClass) {
+                    if (!window.policyManager) {
+                        try {
+                            window.policyManager = new PolicyManagerClass();
+                            console.log('✓ PolicyManager initialized successfully');
+                            return window.policyManager;
+                        } catch (error) {
+                            console.error('Error creating PolicyManager:', error);
+                            return null;
+                        }
+                    }
+                    return window.policyManager;
+                } else {
+                    console.warn('PolicyManager class not found yet');
+                    return null;
+                }
+            }
+            
+            // Try to initialize immediately and with retries
+            let policyManager = initPolicyManager();
+            if (!policyManager) {
+                setTimeout(() => { policyManager = initPolicyManager(); }, 500);
+                setTimeout(() => { policyManager = initPolicyManager(); }, 1000);
+                setTimeout(() => { policyManager = initPolicyManager(); }, 2000);
+            }
+            
+            // Setup policy button handlers
+            const policyBtns = document.querySelectorAll('.policy-btn');
+            policyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    policyBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.background = 'var(--bg-secondary, #1e293b)';
+                        b.style.color = 'var(--text-secondary, #94a3b8)';
+                        b.style.borderColor = 'var(--border-color, rgba(59, 130, 246, 0.2))';
+                    });
+                    this.classList.add('active');
+                    this.style.background = 'var(--primary-color, #3b82f6)';
+                    this.style.color = 'white';
+                    this.style.borderColor = 'var(--primary-color, #3b82f6)';
+                });
+            });
+            
+            // Setup action buttons
+            const startBtn = document.getElementById('startPolicy');
+            const predictBtn = document.getElementById('predictPolicy');
+            
+            // Buttons will be handled by PolicyManager.setupPolicyControls()
+            // Just ensure PolicyManager is initialized
+            setTimeout(() => {
+                if (window.policyManager) {
+                    console.log('PolicyManager is ready, buttons should work');
+                } else {
+                    policyManager = initPolicyManager();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+

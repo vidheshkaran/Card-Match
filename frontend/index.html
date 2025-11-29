@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Watch AI</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AirWatch AI">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <!-- Critical CSS - Load first -->
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/modern-ui.css">
+    
+    <!-- Non-critical CSS - Load after -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/holographic.css">
+    <link rel="stylesheet" href="css/dashboard-navigation.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
+    <link rel="stylesheet" href="css/new-sections.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" class="critical-resource">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" class="critical-resource">
+    
+    <!-- Defer non-critical scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="loading-indicator">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading AirWatch AI...</p>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>AirWatch AI</h2>
+                    <span>Delhi-NCR Monitor</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" onclick="event.preventDefault(); scrollToSection('home'); return false;">Home</a>
+                <a href="#dashboard" class="nav-link" onclick="event.preventDefault(); scrollToSection('dashboard'); return false;">Dashboard</a>
+                <a href="#hyperlocal" class="nav-link" onclick="event.preventDefault(); scrollToSection('hyperlocal'); return false;">Hyperlocal</a>
+                <a href="#pollution-monitoring" class="nav-link" onclick="event.preventDefault(); scrollToSection('pollution-monitoring'); return false;">Pollution Sources</a>
+                <a href="#satellite" class="nav-link" onclick="event.preventDefault(); scrollToSection('satellite'); return false;">Satellite</a>
+                <a href="policy_dashboard.html" class="nav-link" onclick="event.preventDefault(); navigateToPage('policy-dashboard'); return false;">Policy</a>
+                <a href="#alerts" class="nav-link" onclick="event.preventDefault(); scrollToSection('alerts'); return false;">Alerts</a>
+                <a href="citizen_portal.html" class="nav-link" onclick="event.preventDefault(); navigateToPage('community'); return false;">Community</a>
+            </div>
+            
+                <div class="nav-actions">
+                    <button class="btn-back" id="backButton" onclick="goBack()" title="Go Back" style="display: none;">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button class="btn-notification" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                <div class="theme-toggle-container">
+                    <button class="btn-theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <div class="theme-menu" id="themeMenu">
+                        <div class="theme-option active" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option" data-theme="auto">
+                            <i class="fas fa-adjust"></i>
+                            <span>Auto</span>
+                        </div>
+                        <div class="theme-separator"></div>
+                        <div class="theme-option" id="themeSchedule">
+                            <i class="fas fa-clock"></i>
+                            <span>Schedule</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="nav-toggle mobile-nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <canvas id="heroCanvas"></canvas>
+            <div class="hero-particles"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text">AirWatch AI</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Real-time air quality monitoring, AI-powered forecasting, and personalized health insights for a cleaner, healthier Delhi-NCR.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="scrollToSection('dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        View Dashboard
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToSection('alerts')">
+                        <i class="fas fa-bell"></i>
+                        Get Alerts
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="currentAQI">287</div>
+                        <div class="stat-label">Current AQI</div>
+                        <div class="stat-trend trend-increasing">
+                            <i class="fas fa-arrow-up"></i> +12
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="activeAlerts">12</div>
+                        <div class="stat-label">Active Alerts</div>
+                        <div class="stat-trend trend-critical">
+                            <i class="fas fa-exclamation"></i> Critical
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="monitoringStations">45</div>
+                        <div class="stat-label">Monitoring Stations</div>
+                        <div class="stat-trend trend-stable">
+                            <i class="fas fa-check"></i> Online
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-scroll">
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <span>Scroll to explore</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Pollution Map -->
+    <section class="pollution-map" id="dashboard">
+        <div class="section-header" style="position: relative;">
+            <button class="btn-back-section" onclick="goBack()" style="position: absolute; left: 0; top: 0; margin: 0; z-index: 10;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
+            <h2 class="section-title">Live Pollution Heatmap</h2>
+            <p class="section-subtitle">Real-time air quality data across Delhi-NCR</p>
+            <div style="margin-top: 1rem;">
+                <button class="btn-secondary" onclick="navigateToPage('source-analysis')" style="margin-right: 1rem;">
+                    <i class="fas fa-microscope"></i>
+                    View Source Analysis
+                </button>
+            </div>
+        </div>
+        
+        <div class="map-container holographic-theme">
+            <div class="map-controls">
+                <div class="control-group">
+                    <button class="control-btn active" data-layer="pm25">
+                        <i class="fas fa-circle"></i> PM2.5
+                    </button>
+                    <button class="control-btn" data-layer="pm10">
+                        <i class="fas fa-circle"></i> PM10
+                    </button>
+                    <button class="control-btn" data-layer="aqi">
+                        <i class="fas fa-circle"></i> AQI
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="control-btn active" data-time="current">
+                        <i class="fas fa-clock"></i> Live
+                    </button>
+                    <button class="control-btn" data-time="timelapse">
+                        <i class="fas fa-play"></i> Time-lapse
+                    </button>
+                    <button class="control-btn" data-time="24h">
+                        <i class="fas fa-history"></i> 24h Avg
+                    </button>
+                </div>
+                <div class="control-group">
+                    <div class="intensity-control">
+                        <label for="heatmapIntensity">Heat Intensity:</label>
+                        <input type="range" id="heatmapIntensity" min="0" max="1" step="0.1" value="0.8">
+                        <span class="intensity-value">80%</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="playback-controls" id="playbackControls" style="display: none;">
+                        <button class="playback-btn" id="playPauseBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="speed-control">
+                            <label>Speed:</label>
+                            <select id="playbackSpeed">
+                                <option value="0.5">0.5x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="2">2x</option>
+                                <option value="4">4x</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-visualization">
+                <canvas id="pollutionMapCanvas"></canvas>
+                <div class="map-overlay">
+                    <div class="map-legend">
+                        <div class="legend-title">Air Quality Index</div>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color aqi-good"></div>
+                                <span>Good (0-50)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color aqi-satisfactory"></div>
+                                <span>Satisfactory (51-100)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color aqi-moderate"></div>
+                                <span>Moderate (101-200)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color aqi-poor"></div>
+                                <span>Poor (201-300)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color aqi-very-poor"></div>
+                                <span>Very Poor (301-400)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color aqi-severe"></div>
+                                <span>Severe (401+)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+                    </div>
+                </div>
+                <div class="timeline-chart">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="forecast-insights">
+                <div class="insight-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-brain"></i>
+                        <h4>AI Analysis</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="insight-item">
+                            <span class="insight-label">Primary Concern:</span>
+                            <span class="insight-value" id="aiConcern">Loading...</span>
+                        </div>
+                        <div class="insight-item">
+                            <span class="insight-label">Confidence:</span>
+                            <span class="insight-value" id="aiConfidenceValue">--%</span>
+                        </div>
+                        <div class="insight-item">
+                            <span class="insight-label">Peak Time:</span>
+                            <span class="insight-value" id="aiPeakTime">--</span>
+                        </div>
+                        <div class="insight-item">
+                            <span class="insight-label">Recommendation:</span>
+                            <span class="insight-value" id="aiRecommendation">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-cloud-rain"></i>
+                        <h4>Weather Impact</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="weather-item">
+                            <div class="weather-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="weather-info">
+                                <span class="weather-label">Wind Speed</span>
+                                <span class="weather-value">8 km/h</span>
+                            </div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-icon">
+                                <i class="fas fa-thermometer-half"></i>
+                            </div>
+                            <div class="weather-info">
+                                <span class="weather-label">Temperature</span>
+                                <span class="weather-value">22°C</span>
+                            </div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="weather-info">
+                                <span class="weather-label">Humidity</span>
+                                <span class="weather-value">65%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hyperlocal AQI Section -->
+    <section class="hyperlocal-section" id="hyperlocal">
+        <div class="section-header" style="position: relative;">
+            <button class="btn-back-section" onclick="goBack()" style="position: absolute; left: 0; top: 0; margin: 0;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
+        <div class="section-header">
+            <h2 class="section-title">Hyperlocal Air Quality</h2>
+            <p class="section-subtitle">Neighborhood-level air quality monitoring and safe route planning</p>
+        </div>
+        
+        <div class="hyperlocal-container">
+            <div class="location-selector">
+                <div class="location-input">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="locationInput" placeholder="Enter your location or use current location" value="Delhi, India">
+                    <button class="btn-location" id="getCurrentLocation" onclick="if(window.hyperlocalManager){window.hyperlocalManager.getCurrentLocation();}">
+                        <i class="fas fa-crosshairs"></i>
+                    </button>
+                </div>
+                <div class="location-options">
+                    <button class="location-option active" data-location="central-delhi" onclick="if(window.hyperlocalManager){window.hyperlocalManager.handleLocationClick('central-delhi', this);}">Central Delhi</button>
+                </div>
+            </div>
+            
+            <div class="hyperlocal-grid">
+                <div class="current-aqi-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-location-dot"></i>
+                        <h4>Current Location AQI</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="aqi-display">
+                            <div class="aqi-value" id="hyperlocalAQI">287</div>
+                            <div class="aqi-category" id="hyperlocalCategory">Poor</div>
+                            <div class="aqi-confidence">
+                                <span>Confidence: </span>
+                                <span class="confidence-value" id="hyperlocalConfidence">87%</span>
+                            </div>
+                        </div>
+                        <div class="aqi-breakdown">
+                            <div class="pollutant-item">
+                                <span class="pollutant-name">PM2.5</span>
+                                <span class="pollutant-value" id="hyperlocalPM25">112.5</span>
+                            </div>
+                            <div class="pollutant-item">
+                                <span class="pollutant-name">PM10</span>
+                                <span class="pollutant-value" id="hyperlocalPM10">195.3</span>
+                            </div>
+                            <div class="pollutant-item">
+                                <span class="pollutant-name">NO2</span>
+                                <span class="pollutant-value" id="hyperlocalNO2">45.6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="safe-routes-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-route"></i>
+                        <h4>Safe Routes</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="route-input">
+                            <div class="route-field">
+                                <label>From:</label>
+                                <input type="text" id="routeFrom" placeholder="Starting point" value="Home">
+                            </div>
+                            <div class="route-field">
+                                <label>To:</label>
+                                <input type="text" id="routeTo" placeholder="Destination" value="Office">
+                            </div>
+                            <button class="btn-route" id="findRoutes" onclick="findSafeRoutesHandler()">Find Safe Routes</button>
+                        </div>
+                        <div class="routes-list" id="routesList">
+                            <div class="route-option">
+                                <div class="route-info">
+                                    <div class="route-type metro">
+                                        <i class="fas fa-subway"></i>
+                                        <span>Metro Route</span>
+                                    </div>
+                                    <div class="route-stats">
+                                        <span class="route-duration">45 min</span>
+                                        <span class="route-aqi">180 AQI</span>
+                                        <span class="route-distance">12 km</span>
+                                    </div>
+                                </div>
+                                <div class="route-score excellent">Excellent</div>
+                            </div>
+                            <div class="route-option">
+                                <div class="route-info">
+                                    <div class="route-type cycling">
+                                        <i class="fas fa-bicycle"></i>
+                                        <span>Cycling Route</span>
+                                    </div>
+                                    <div class="route-stats">
+                                        <span class="route-duration">30 min</span>
+                                        <span class="route-aqi">200 AQI</span>
+                                        <span class="route-distance">8 km</span>
+                                    </div>
+                                </div>
+                                <div class="route-score good">Good</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-recommendations-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-running"></i>
+                        <h4>Activity Recommendations</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="activity-selector">
+                            <button class="activity-btn active" data-activity="walking" onclick="handleActivityButtonClick('walking', this)">
+                                <i class="fas fa-walking"></i>
+                                <span>Walking</span>
+                            </button>
+                            <button class="activity-btn" data-activity="running" onclick="handleActivityButtonClick('running', this)">
+                                <i class="fas fa-running"></i>
+                                <span>Running</span>
+                            </button>
+                            <button class="activity-btn" data-activity="cycling" onclick="handleActivityButtonClick('cycling', this)">
+                                <i class="fas fa-bicycle"></i>
+                                <span>Cycling</span>
+                            </button>
+                        </div>
+                        <div class="activity-recommendation" id="activityRecommendation">
+                            <div class="recommendation-status good">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Safe for outdoor activities</span>
+                            </div>
+                            <div class="recommendation-details">
+                                <p>Current air quality is suitable for outdoor activities. Consider wearing a mask if you have respiratory sensitivities.</p>
+                                <div class="recommendation-tips">
+                                    <div class="tip-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Best time: 6-8 AM</span>
+                                    </div>
+                                    <div class="tip-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>Try parks and green areas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pollution Source Monitoring Section -->
+    <section class="pollution-monitoring-section" id="pollution-monitoring" style="display: block !important; visibility: visible !important; opacity: 1 !important; min-height: 100vh; padding: 4rem 0; background: #0a0e27; position: relative; z-index: 1; width: 100%;">
+        <div class="section-header" style="position: relative; max-width: 1400px; margin: 0 auto; padding: 0 2rem 2rem 2rem;">
+            <h2 class="section-title" style="color: #ffffff; font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">Pollution Source Monitoring</h2>
+            <p class="section-subtitle" style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem;">Real-time tracking of transport emissions, stubble burning, and biomass fuel usage</p>
+            <button class="btn-back-section" onclick="goBack()" style="position: absolute; left: 2rem; top: 0; margin: 0; z-index: 10; padding: 0.5rem 1rem; background: var(--accent-primary, #3b82f6); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </button>
+        </div>
+        
+        <div class="monitoring-container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr; gap: 2rem; visibility: visible !important;">
+            
+            <!-- 1. Transport Emissions -->
+            <div class="monitoring-card holographic-card" style="background: var(--bg-secondary, #1a1f3a); border-radius: 12px; border: 1px solid var(--border-color, #2d3748); overflow: hidden;">
+                <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1)); border-bottom: 1px solid var(--border-color, #2d3748);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-car" style="font-size: 2rem; color: #ef4444;"></i>
+                        <h3 style="margin: 0; font-size: 1.5rem; color: var(--text-primary, #ffffff);">1. Transport Emissions</h3>
+                    </div>
+                    <span class="update-badge" id="transportUpdateTime" style="font-size: 0.8rem; padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981;">Updating...</span>
+                </div>
+                <div class="card-content" style="padding: 1.5rem;">
+                    <div class="monitoring-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Vehicles Detected</span>
+                            <span class="stat-value" id="totalVehiclesDetected" style="display: block; font-size: 1.5rem; font-weight: 700; color: var(--text-primary, #ffffff);">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Violations</span>
+                            <span class="stat-value" id="violationsCount" style="display: block; font-size: 1.5rem; font-weight: 700; color: #ef4444;">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Compliance Rate</span>
+                            <span class="stat-value" id="complianceRate" style="display: block; font-size: 1.5rem; font-weight: 700; color: #10b981;">--%</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--text-primary, #ffffff); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-upload" style="color: #3b82f6;"></i>
+                            Upload Vehicle Image for ANPR
+                        </h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="file" id="vehicleImageUpload" accept="image/*" style="flex: 1; padding: 0.75rem; background: var(--bg-primary, #0a0e27); border: 1px solid var(--border-color, #2d3748); border-radius: 8px; color: var(--text-primary, #ffffff);">
+                            <button onclick="processVehicleImage()" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-search"></i> Process ANPR
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="vehicleViolations" style="max-height: 400px; overflow-y: auto;">
+                        <div class="loading-skeleton" style="padding: 1rem; text-align: center; color: var(--text-secondary, #94a3b8);">Loading violations...</div>
+                    </div>
+                    
+                    <div class="rules-box" style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                        <h4 style="color: var(--text-primary, #ffffff); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-info-circle" style="color: #3b82f6;"></i>
+                            Vehicle Compliance Rules
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div>
+                                <div style="color: #10b981; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                    <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>Allowed (No Complaint)
+                                </div>
+                                <ul style="list-style: none; padding: 0; margin: 0; color: var(--text-secondary, #94a3b8); font-size: 0.85rem;">
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-check" style="color: #10b981; margin-right: 0.5rem;"></i> BS6: Allowed (all days)</li>
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-check" style="color: #10b981; margin-right: 0.5rem;"></i> BS4 Diesel: Allowed (all days)</li>
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-check" style="color: #10b981; margin-right: 0.5rem;"></i> BS3 Petrol: Allowed (all days)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div style="color: #ef4444; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                    <i class="fas fa-times-circle" style="margin-right: 0.5rem;"></i>Requires Complaint
+                                </div>
+                                <ul style="list-style: none; padding: 0; margin: 0; color: var(--text-secondary, #94a3b8); font-size: 0.85rem;">
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-times" style="color: #ef4444; margin-right: 0.5rem;"></i> BS3 Diesel: Not allowed</li>
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-times" style="color: #ef4444; margin-right: 0.5rem;"></i> BS4 Petrol: Not allowed</li>
+                                    <li style="padding: 0.25rem 0;"><i class="fas fa-times" style="color: #ef4444; margin-right: 0.5rem;"></i> BS2 and below: Not allowed</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h4 style="color: var(--text-primary, #ffffff); margin-bottom: 1rem;">
+                            <i class="fas fa-info-circle" style="color: #3b82f6;"></i> Delhi Vehicle Rules
+                        </h4>
+                        <ul id="vehicleRules" style="list-style: none; padding: 0; margin: 0; color: var(--text-secondary, #94a3b8);">
+                            <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> BS6: Allowed (all days)</li>
+                            <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> BS4 Petrol: Allowed (all days)</li>
+                            <li style="padding: 0.5rem 0;"><i class="fas fa-times-circle" style="color: #ef4444; margin-right: 0.5rem;"></i> BS4 Diesel: Not allowed</li>
+                            <li style="padding: 0.5rem 0;"><i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 0.5rem;"></i> BS3 Petrol: Only on odd days (Odd-Even rule)</li>
+                            <li style="padding: 0.5rem 0;"><i class="fas fa-times-circle" style="color: #ef4444; margin-right: 0.5rem;"></i> BS3 Diesel: Not allowed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2. Stubble Burning -->
+            <div class="monitoring-card holographic-card" style="background: var(--bg-secondary, #1a1f3a); border-radius: 12px; border: 1px solid var(--border-color, #2d3748); overflow: hidden;">
+                <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1)); border-bottom: 1px solid var(--border-color, #2d3748);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-fire" style="font-size: 2rem; color: #f59e0b;"></i>
+                        <h3 style="margin: 0; font-size: 1.5rem; color: var(--text-primary, #ffffff);">2. Stubble Burning (Punjab, Haryana, UP)</h3>
+                    </div>
+                    <span class="update-badge" id="stubbleUpdateTime" style="font-size: 0.8rem; padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981;">Updating...</span>
+                </div>
+                <div class="card-content" style="padding: 1.5rem;">
+                    <div class="monitoring-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Total Hotspots</span>
+                            <span class="stat-value" id="totalHotspots" style="display: block; font-size: 1.5rem; font-weight: 700; color: var(--text-primary, #ffffff);">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">High Risk</span>
+                            <span class="stat-value" id="highRiskHotspots" style="display: block; font-size: 1.5rem; font-weight: 700; color: #ef4444;">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Total Fires</span>
+                            <span class="stat-value" id="totalFires" style="display: block; font-size: 1.5rem; font-weight: 700; color: #f59e0b;">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Est. Impact (hrs)</span>
+                            <span class="stat-value" id="estimatedImpact" style="display: block; font-size: 1.5rem; font-weight: 700; color: #3b82f6;">--</span>
+                        </div>
+                    </div>
+                    
+                    <div id="stubbleHotspots" style="max-height: 400px; overflow-y: auto; margin-bottom: 2rem;">
+                        <div class="loading-skeleton" style="padding: 1rem; text-align: center; color: var(--text-secondary, #94a3b8);">Loading hotspots...</div>
+                    </div>
+                    
+                    <div id="stubbleAlerts" style="margin-top: 2rem;">
+                        <div class="loading-skeleton" style="padding: 1rem; text-align: center; color: var(--text-secondary, #94a3b8);">Loading alerts...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. Biomass & Domestic Fuel Burning -->
+            <div class="monitoring-card holographic-card" style="background: var(--bg-secondary, #1a1f3a); border-radius: 12px; border: 1px solid var(--border-color, #2d3748); overflow: hidden;">
+                <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); border-bottom: 1px solid var(--border-color, #2d3748);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-home" style="font-size: 2rem; color: #8b5cf6;"></i>
+                        <h3 style="margin: 0; font-size: 1.5rem; color: var(--text-primary, #ffffff);">3. Biomass & Domestic Fuel Burning</h3>
+                    </div>
+                    <span class="update-badge" id="biomassUpdateTime" style="font-size: 0.8rem; padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981;">Updating...</span>
+                </div>
+                <div class="card-content" style="padding: 1.5rem;">
+                    <div class="monitoring-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Biomass Households</span>
+                            <span class="stat-value" id="biomassHouseholds" style="display: block; font-size: 1.5rem; font-weight: 700; color: var(--text-primary, #ffffff);">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Eligible for LPG</span>
+                            <span class="stat-value" id="eligibleForLPG" style="display: block; font-size: 1.5rem; font-weight: 700; color: #10b981;">--</span>
+                        </div>
+                        <div class="stat-item" style="text-align: center; padding: 1rem; background: var(--bg-primary, #0a0e27); border-radius: 8px; border: 1px solid var(--border-color, #2d3748);">
+                            <span class="stat-label" style="display: block; font-size: 0.85rem; color: var(--text-secondary, #94a3b8); margin-bottom: 0.5rem;">Usage Rate</span>
+                            <span class="stat-value" id="biomassUsageRate" style="display: block; font-size: 1.5rem; font-weight: 700; color: #f59e0b;">--%</span>
+                        </div>
+                    </div>
+                    
+                    <div id="wardData" style="max-height: 400px; overflow-y: auto; margin-bottom: 2rem;">
+                        <div class="loading-skeleton" style="padding: 1rem; text-align: center; color: var(--text-secondary, #94a3b8);">Loading ward data...</div>
+                    </div>
+                    
+                    <div id="lpgSchemes" style="margin-top: 2rem;">
+                        <h4 style="color: var(--text-primary, #ffffff); margin-bottom: 1rem;">
+                            <i class="fas fa-gift" style="color: #10b981;"></i> Available LPG Schemes
+                        </h4>
+                        <div id="schemesList" style="display: grid; gap: 1rem;">
+                            <div class="loading-skeleton" style="padding: 1rem; text-align: center; color: var(--text-secondary, #94a3b8);">Loading schemes...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Alerts Section -->
+    <section class="alerts-section" id="alerts">
+        <div class="section-header" style="position: relative;">
+            <button class="btn-back-section" onclick="goBack()" style="position: absolute; left: 0; top: 0; margin: 0;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
+        <div class="section-header">
+            <h2 class="section-title">Health Alerts & Recommendations</h2>
+            <p class="section-subtitle">Personalized health guidance based on current air quality</p>
+        </div>
+        
+        <div class="alerts-container">
+            <div class="alert-priority">
+                <div class="priority-card critical">
+                    <div class="priority-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Critical Alert</h3>
+                        <span class="priority-badge">Immediate Action</span>
+                    </div>
+                    <div class="priority-content">
+                        <p>AQI levels have reached 287 (Poor category). Limit outdoor activities and use N95 masks.</p>
+                        <div class="priority-actions">
+                            <button class="btn-action" onclick="if(typeof showMaskGuidance === 'function') { showMaskGuidance(); } else { alert('Loading... Please wait a moment and try again.'); console.error('showMaskGuidance not available'); }" style="cursor: pointer;">
+                                <i class="fas fa-mask"></i>
+                                Get Mask Guidance
+                            </button>
+                            <button class="btn-action" onclick="if(typeof showSafeRoutes === 'function') { showSafeRoutes(); } else { alert('Loading... Please wait a moment and try again.'); console.error('showSafeRoutes not available'); }" style="cursor: pointer;">
+                                <i class="fas fa-route"></i>
+                                Find Safe Routes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="health-recommendations">
+                <div class="recommendation-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-heart"></i>
+                        <h4>For General Population</h4>
+                    </div>
+                    <div class="card-content">
+                        <ul class="recommendation-list">
+                            <li><i class="fas fa-check"></i> Avoid outdoor physical activities</li>
+                            <li><i class="fas fa-check"></i> Keep windows and doors closed</li>
+                            <li><i class="fas fa-check"></i> Use air purifiers indoors</li>
+                            <li><i class="fas fa-check"></i> Wear N95 masks when going out</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-child"></i>
+                        <h4>For Sensitive Groups</h4>
+                    </div>
+                    <div class="card-content">
+                        <ul class="recommendation-list">
+                            <li><i class="fas fa-check"></i> Stay indoors as much as possible</li>
+                            <li><i class="fas fa-check"></i> Consult doctor if symptoms worsen</li>
+                            <li><i class="fas fa-check"></i> Keep emergency medications ready</li>
+                            <li><i class="fas fa-check"></i> Use HEPA air purifiers</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card holographic-card">
+                    <div class="card-header">
+                        <i class="fas fa-running"></i>
+                        <h4>For Athletes & Active People</h4>
+                    </div>
+                    <div class="card-content">
+                        <ul class="recommendation-list">
+                            <li><i class="fas fa-check"></i> Move workouts indoors</li>
+                            <li><i class="fas fa-check"></i> Reduce exercise intensity</li>
+                            <li><i class="fas fa-check"></i> Stay hydrated</li>
+                            <li><i class="fas fa-check"></i> Monitor breathing patterns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Satellite Tracking Section -->
+    <section class="satellite-section" id="satellite">
+        <div class="section-header" style="position: relative;">
+            <button class="btn-back-section" onclick="goBack()" style="position: absolute; left: 0; top: 0; margin: 0;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
+        <div class="section-header">
+            <h2 class="section-title">Satellite Pollution Tracking</h2>
+            <p class="section-subtitle">Real-time monitoring of pollution sources using satellite data</p>
+        </div>
+        
+        <div class="satellite-container">
+            <div class="satellite-controls">
+                <div class="control-group">
+                    <button class="control-btn active" data-tracking="stubble-burning" onclick="handleSatelliteTracking('stubble-burning', this);">
+                        <i class="fas fa-fire"></i>
+                        Stubble Burning
+                    </button>
+                    <button class="control-btn" data-tracking="industrial" onclick="handleSatelliteTracking('industrial', this);">
+                        <i class="fas fa-industry"></i>
+                        Industrial Hotspots
+                    </button>
+                    <button class="control-btn" data-tracking="aerosol" onclick="handleSatelliteTracking('aerosol', this);">
+                        <i class="fas fa-cloud"></i>
+                        Aerosol Depth
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="control-btn refresh-btn" id="satelliteRefreshBtn" onclick="refreshSatelliteData();" title="Refresh Satellite Data">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="satellite-grid">
+                <div class="stubble-burning-card holographic-card active-tracking">
+                    <div class="card-header">
+                        <div class="header-icon fire-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="header-content">
+                            <h4>Stubble Burning Activity</h4>
+                            <span class="data-source">NASA MODIS & VIIRS</span>
+                        </div>
+                        <div class="header-status">
+                            <div class="status-indicator active"></div>
+                            <span>Live</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="satellite-metrics">
+                            <div class="metric-item">
+                                <div class="metric-label">Fire Detections</div>
+                                <div class="metric-value fire-count" id="fireCount">23</div>
+                                <div class="metric-trend trend-increasing">
+                                    <i class="fas fa-arrow-up"></i> +8 from yesterday
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Thermal Anomalies</div>
+                                <div class="metric-value" id="thermalAnomalies">15</div>
+                                <div class="metric-trend trend-stable">
+                                    <i class="fas fa-minus"></i> No change
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Smoke Plumes</div>
+                                <div class="metric-value" id="smokePlumes">8</div>
+                                <div class="metric-trend trend-increasing">
+                                    <i class="fas fa-arrow-up"></i> +3 detected
+                                </div>
+                            </div>
+                        </div>
+                        <div class="impact-prediction">
+                            <div class="impact-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Delhi-NCR Impact Prediction</span>
+                            </div>
+                            <div class="impact-details">
+                                <div class="impact-item">
+                                    <span class="impact-label">Expected AQI Increase:</span>
+                                    <span class="impact-value critical">+85 points</span>
+                                </div>
+                                <div class="impact-item">
+                                    <span class="impact-label">Time to Impact:</span>
+                                    <span class="impact-value">4-6 hours</span>
+                                </div>
+                                <div class="impact-item">
+                                    <span class="impact-label">Wind Direction:</span>
+                                    <span class="impact-value">Northwest</span>
+                                </div>
+                                <div class="impact-item">
+                                    <span class="impact-label">Confidence:</span>
+                                    <span class="impact-value">92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="industrial-hotspots-card holographic-card">
+                    <div class="card-header">
+                        <div class="header-icon industrial-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="header-content">
+                            <h4>Industrial Emission Hotspots</h4>
+                            <span class="data-source">Landsat Thermal & MODIS</span>
+                        </div>
+                        <div class="header-status">
+                            <div class="status-indicator active"></div>
+                            <span>Monitoring</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="hotspots-list">
+                            <div class="hotspot-item">
+                                <div class="hotspot-info">
+                                    <div class="hotspot-name">Mayapuri Industrial Area</div>
+                                    <div class="hotspot-coordinates">28.6289°N, 77.2065°E</div>
+                                </div>
+                                <div class="hotspot-metrics">
+                                    <div class="hotspot-temperature">65°C</div>
+                                    <div class="hotspot-intensity high">High</div>
+                                </div>
+                            </div>
+                            <div class="hotspot-item">
+                                <div class="hotspot-info">
+                                    <div class="hotspot-name">Okhla Industrial Area</div>
+                                    <div class="hotspot-coordinates">28.5314°N, 77.2728°E</div>
+                                </div>
+                                <div class="hotspot-metrics">
+                                    <div class="hotspot-temperature">58°C</div>
+                                    <div class="hotspot-intensity medium">Medium</div>
+                                </div>
+                            </div>
+                            <div class="hotspot-item">
+                                <div class="hotspot-info">
+                                    <div class="hotspot-name">Narela Industrial Area</div>
+                                    <div class="hotspot-coordinates">28.8519°N, 77.0927°E</div>
+                                </div>
+                                <div class="hotspot-metrics">
+                                    <div class="hotspot-temperature">62°C</div>
+                                    <div class="hotspot-intensity high">High</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="emission-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Hotspots:</span>
+                                <span class="summary-value hotspot-count">8 detected</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Emission Intensity:</span>
+                                <span class="summary-value emission-intensity critical">High</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Last Updated:</span>
+                                <span class="summary-value last-updated">2 minutes ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="aerosol-depth-card holographic-card">
+                    <div class="card-header">
+                        <div class="header-icon aerosol-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="header-content">
+                            <h4>Aerosol Optical Depth</h4>
+                            <span class="data-source">MODIS Terra & Aqua</span>
+                        </div>
+                        <div class="header-status">
+                            <div class="status-indicator active"></div>
+                            <span>Updated</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="aod-map">
+                            <div class="aod-locations">
+                                <div class="aod-location">
+                                    <div class="location-name">Delhi</div>
+                                    <div class="aod-value">0.847</div>
+                                    <div class="aod-quality poor">Poor</div>
+                                </div>
+                                <div class="aod-location">
+                                    <div class="location-name">Gurgaon</div>
+                                    <div class="aod-value">0.623</div>
+                                    <div class="aod-quality moderate">Moderate</div>
+                                </div>
+                                <div class="aod-location">
+                                    <div class="location-name">Noida</div>
+                                    <div class="aod-value">0.912</div>
+                                    <div class="aod-quality poor">Poor</div>
+                                </div>
+                                <div class="aod-location">
+                                    <div class="location-name">Faridabad</div>
+                                    <div class="aod-value">0.734</div>
+                                    <div class="aod-quality moderate">Moderate</div>
+                                </div>
+                                <div class="aod-location">
+                                    <div class="location-name">Ghaziabad</div>
+                                    <div class="aod-value">0.789</div>
+                                    <div class="aod-quality poor">Poor</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="aod-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Average AOD:</span>
+                                <span class="summary-value avg-aod">0.781</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Data Quality:</span>
+                                <span class="summary-value data-quality">High</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Satellite Pass:</span>
+                                <span class="summary-value satellite-pass">Terra (10:30 AM)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community-section" id="community">
+        <div class="section-header">
+            <h2 class="section-title">Community Engagement</h2>
+            <p class="section-subtitle">Join the fight against air pollution</p>
+        </div>
+        
+        <div class="community-container">
+            <div class="community-stats">
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">12,547</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">8,923</div>
+                        <div class="stat-label">Eco Actions</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card holographic-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Green Points</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="community-features">
+                <div class="feature-card holographic-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Report Pollution</h4>
+                        <p>Upload photos of pollution sources and get verified by our AI system.</p>
+                        <button class="btn-feature">Report Now</button>
+                    </div>
+                </div>
+                
+                <div class="feature-card holographic-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Eco Challenges</h4>
+                        <p>Complete daily challenges and earn green points for sustainable actions.</p>
+                        <button class="btn-feature">Join Challenge</button>
+                    </div>
+                </div>
+                
+                <div class="feature-card holographic-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Community Forum</h4>
+                        <p>Connect with like-minded individuals and share environmental tips.</p>
+                        <button class="btn-feature">Join Forum</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h3>AirWatch AI</h3>
+                        <p>Delhi-NCR Pollution Monitor</p>
+                    </div>
+                </div>
+                <p class="footer-description">
+                    Empowering citizens with real-time air quality data and AI-powered insights for a healthier Delhi-NCR.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#alerts">Health Alerts</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Data Sources</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 AirWatch AI. All rights reserved.</p>
+            <p>Powered by AI & Machine Learning</p>
+        </div>
+    </footer>
+
+    <!-- Force dark mode on page load -->
+    <script>
+        // Ensure dark mode is applied immediately on page load
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('airwatch-theme', 'dark');
+    </script>
+    
+    <!-- Scripts - Load in optimized order -->
+    <!-- Unregister service worker on localhost immediately to prevent API interference -->
+    <script>
+        (function() {
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                        registrations.forEach(function(registration) {
+                            registration.unregister().then(function(success) {
+                                if (success) {
+                                    console.log('[Service Worker] Unregistered for localhost development');
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+        })();
+    </script>
+    <!-- Add CSS for back button in sections -->
+    <style>
+        .btn-back-section {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--text-primary, #ffffff);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-back-section:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateX(-3px);
+        }
+        .btn-back-section i {
+            font-size: 0.85rem;
+        }
+        
+        /* Refresh button styling */
+        .refresh-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--text-primary, #ffffff);
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover:not(:disabled) {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .refresh-btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .refresh-btn i.fa-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Hide effectiveness scores by default */
+        .effectiveness-score.hidden-by-default {
+            display: none !important;
+        }
+        
+        /* Show effectiveness scores when visible */
+        .effectiveness-score:not(.hidden-by-default) {
+            display: block !important;
+        }
+    </style>
+           <script src="js/modern-ui.js"></script>
+           <script src="js/simple-navigation.js"></script>
+           <script src="js/map-config.js"></script>
+           <script src="js/theme-toggle.js"></script>
+           <script src="js/notifications.js" defer></script>
+           <script src="js/hero-animations.js" defer></script>
+           <script src="js/pollution-map.js" defer></script>
+           <script src="js/forecast-chart.js" defer></script>
+           <script src="js/realtime-data.js" defer></script>
+           <script src="js/new-sections.js?v=9"></script>
+           <script>
+           // Global functions for satellite buttons - must be available immediately
+           (function() {
+               'use strict';
+               
+              const trackingState = window.__satelliteTrackingState || {
+                  activeFilter: null
+              };
+              window.__satelliteTrackingState = trackingState;
+              
+              window.__suppressSatelliteTrackingListener = false;
+              window.__suppressSatelliteTimeframeListener = false;
+              
+              function updateSatelliteTrackingDisplay(selectedTracking) {
+                  const trackingBtns = document.querySelectorAll('[data-tracking]');
+                  const cards = {
+                      'stubble-burning': document.querySelector('.stubble-burning-card'),
+                      'industrial': document.querySelector('.industrial-hotspots-card'),
+                      'aerosol': document.querySelector('.aerosol-depth-card')
+                  };
+                  
+                  trackingBtns.forEach(btn => {
+                      if (!selectedTracking) {
+                       btn.classList.remove('active');
+                      } else {
+                          btn.classList.toggle('active', btn.dataset.tracking === selectedTracking);
+                      }
+                  });
+                  
+                  Object.entries(cards).forEach(([key, card]) => {
+                      if (!card) return;
+                      if (!selectedTracking) {
+                       card.classList.remove('active-tracking');
+                          card.style.display = '';
+                      } else {
+                          card.classList.toggle('active-tracking', key === selectedTracking);
+                          card.style.display = key === selectedTracking ? '' : 'none';
+                      }
+                  });
+              }
+              
+              window.updateSatelliteTrackingDisplay = updateSatelliteTrackingDisplay;
+              
+              const satelliteInitState = {
+                  initializing: false,
+                  callbacks: [],
+                  warned: false,
+                  waitingForClass: false,
+                  retryCount: 0,
+                  maxRetries: 15
+              };
+              
+              function flushSatelliteCallbacks() {
+                  while (satelliteInitState.callbacks.length && window.satelliteManager) {
+                      const cb = satelliteInitState.callbacks.shift();
+                      try {
+                          cb(window.satelliteManager);
+                      } catch (err) {
+                          console.error('Error executing satellite callback:', err);
+                      }
+                  }
+              }
+              
+              function ensureSatelliteManager(callback, attempt = 0) {
+                  if (window.satelliteManager && typeof callback === 'function') {
+                      callback(window.satelliteManager);
+                      return;
+                  }
+                  
+                  if (typeof callback === 'function') {
+                      satelliteInitState.callbacks.push(callback);
+                  }
+                  
+                               const section = document.getElementById('satellite');
+                  if (!section) {
+                      if (!satelliteInitState.warned) {
+                          console.warn('Satellite section not in DOM yet. Pending actions will run once it mounts.');
+                          satelliteInitState.warned = true;
+                      }
+                      setTimeout(() => ensureSatelliteManager(null, attempt + 1), 200);
+                      return;
+                  }
+                  
+                  if (window.satelliteManager) {
+                      flushSatelliteCallbacks();
+                      return;
+                  }
+                  
+                  if (!window.SatelliteManager) {
+                      if (!satelliteInitState.waitingForClass) {
+                          satelliteInitState.waitingForClass = true;
+                          window.addEventListener('satellite-manager-ready', () => {
+                              satelliteInitState.waitingForClass = false;
+                              ensureSatelliteManager(null);
+                          }, { once: true });
+                      }
+                      if (satelliteInitState.retryCount < satelliteInitState.maxRetries) {
+                          satelliteInitState.retryCount += 1;
+                          if (!satelliteInitState.warned) {
+                              console.warn('SatelliteManager class still loading. Actions queued until ready.');
+                              satelliteInitState.warned = true;
+                          }
+                          setTimeout(() => ensureSatelliteManager(null, attempt + 1), 200);
+                                   } else {
+                          console.error('SatelliteManager class still unavailable after retries.');
+                      }
+                      return;
+                  }
+                  
+                  if (satelliteInitState.initializing) {
+                      return;
+                  }
+                  
+                  satelliteInitState.initializing = true;
+                  window.satelliteManager = new window.SatelliteManager();
+                  setTimeout(() => {
+                      satelliteInitState.initializing = false;
+                      satelliteInitState.warned = false;
+                      flushSatelliteCallbacks();
+                       }, 300);
+                   }
+              
+              function handleSatelliteTracking(tracking, buttonElement) {
+                  console.log('=== handleSatelliteTracking called with:', tracking, '===');
+                  window.__suppressSatelliteTrackingListener = true;
+                  
+                  if (window.satelliteManager && typeof window.satelliteManager.toggleTrackingSelection === 'function') {
+                      window.satelliteManager.toggleTrackingSelection(tracking);
+                      return;
+                  }
+                  
+                  if (trackingState.activeFilter === tracking) {
+                      trackingState.activeFilter = null;
+                      updateSatelliteTrackingDisplay(null);
+                      return;
+                  }
+                  
+                  trackingState.activeFilter = tracking;
+                  updateSatelliteTrackingDisplay(tracking);
+                  
+                  ensureSatelliteManager((manager) => {
+                      if (manager && typeof manager.toggleTrackingSelection === 'function') {
+                          manager.toggleTrackingSelection(tracking);
+                      } else if (manager && typeof manager.setTracking === 'function') {
+                          manager.setTracking(tracking);
+                      }
+                  });
+               }
+               
+               function handleSatelliteTimeframe(timeframe, buttonElement) {
+                   console.log('=== handleSatelliteTimeframe called with:', timeframe, '===');
+                  window.__suppressSatelliteTimeframeListener = true;
+                  
+                  if (window.satelliteManager && typeof window.satelliteManager.setTimeframe === 'function') {
+                      window.satelliteManager.setTimeframe(timeframe);
+                      return;
+                  }
+                  
+                   const allTimeframeBtns = document.querySelectorAll('[data-timeframe]');
+                   allTimeframeBtns.forEach(btn => {
+                      btn.classList.toggle('active', btn === buttonElement);
+                  });
+                  
+                  ensureSatelliteManager((manager) => {
+                      if (manager && typeof manager.setTimeframe === 'function') {
+                          manager.setTimeframe(timeframe);
+                      }
+                  });
+              }
+              
+              function refreshSatelliteData() {
+                  console.log('=== refreshSatelliteData called ===');
+                  
+                  const refreshBtn = document.getElementById('satelliteRefreshBtn');
+                  if (refreshBtn) {
+                      const icon = refreshBtn.querySelector('i');
+                      if (icon) {
+                          icon.classList.add('fa-spin');
+                      }
+                      refreshBtn.disabled = true;
+                      refreshBtn.style.opacity = '0.7';
+                  }
+                  
+                  // Helper function to stop spinning animation
+                  function stopSpinning() {
+                      if (refreshBtn) {
+                          const icon = refreshBtn.querySelector('i');
+                          if (icon) {
+                              icon.classList.remove('fa-spin');
+                          }
+                          refreshBtn.disabled = false;
+                          refreshBtn.style.opacity = '1';
+                      }
+                  }
+                  
+                  // Maximum timeout of 5 seconds - always stop spinning after 5 seconds
+                  const maxTimeout = setTimeout(() => {
+                      console.log('Maximum refresh time (5 seconds) reached, stopping animation');
+                      stopSpinning();
+                  }, 5000);
+                  
+                  ensureSatelliteManager((manager) => {
+                      if (manager && typeof manager.refreshData === 'function') {
+                          manager.refreshData().then(() => {
+                              clearTimeout(maxTimeout);
+                              stopSpinning();
+                          }).catch((error) => {
+                              console.error('Error refreshing satellite data:', error);
+                              clearTimeout(maxTimeout);
+                              stopSpinning();
+                          });
+                      } else if (manager && typeof manager.loadSatelliteData === 'function') {
+                          manager.loadSatelliteData();
+                          setTimeout(() => {
+                              clearTimeout(maxTimeout);
+                              stopSpinning();
+                          }, 1000);
+                      } else {
+                          console.error('SatelliteManager refresh method not available');
+                          clearTimeout(maxTimeout);
+                          stopSpinning();
+                      }
+                  });
+              }
+              
+               window.handleSatelliteTracking = handleSatelliteTracking;
+               window.handleSatelliteTimeframe = handleSatelliteTimeframe;
+              window.refreshSatelliteData = refreshSatelliteData;
+               
+               console.log('Satellite button handlers registered');
+           })();
+           
+           // Global fallback functions for hyperlocal buttons
+           if (typeof window.hyperlocalManager === 'undefined') {
+               window.hyperlocalManager = null;
+               
+               // Fallback for location buttons
+               window.handleLocationClick = function(location, buttonElement) {
+                   if (window.hyperlocalManager) {
+                       window.hyperlocalManager.handleLocationClick(location, buttonElement);
+                   } else {
+                       console.warn('HyperlocalManager not initialized yet');
+                       setTimeout(() => {
+                           if (window.hyperlocalManager) {
+                               window.hyperlocalManager.handleLocationClick(location, buttonElement);
+                           }
+                       }, 1000);
+                   }
+               };
+               
+               // Fallback for get current location
+               window.getCurrentLocationFallback = function() {
+                   if (window.hyperlocalManager) {
+                       window.hyperlocalManager.getCurrentLocation();
+                   } else {
+                       console.warn('HyperlocalManager not initialized yet');
+                       setTimeout(() => {
+                           if (window.hyperlocalManager) {
+                               window.hyperlocalManager.getCurrentLocation();
+                           }
+                       }, 1000);
+                   }
+               };
+               
+               // Handler for find safe routes button
+               window.findSafeRoutesHandler = function() {
+                   const button = document.getElementById('findRoutes');
+                   if (button) {
+                       button.disabled = true;
+                       button.textContent = 'Finding Routes...';
+                   }
+                   
+                   if (window.hyperlocalManager && typeof window.hyperlocalManager.findSafeRoutes === 'function') {
+                       window.hyperlocalManager.findSafeRoutes();
+                       if (button) {
+                           setTimeout(() => {
+                               button.disabled = false;
+                               button.textContent = 'Find Safe Routes';
+                           }, 2000);
+                       }
+                   } else {
+                       // Try to call directly with fallback
+                       console.log('HyperlocalManager not ready, calling findSafeRoutes directly...');
+                       findSafeRoutesDirect();
+                       
+                       // Also wait for initialization
+                       let attempts = 0;
+                       const checkInterval = setInterval(() => {
+                           attempts++;
+                           if (window.hyperlocalManager && typeof window.hyperlocalManager.findSafeRoutes === 'function') {
+                               clearInterval(checkInterval);
+                               window.hyperlocalManager.findSafeRoutes();
+                               if (button) {
+                                   button.disabled = false;
+                                   button.textContent = 'Find Safe Routes';
+                               }
+                           } else if (attempts > 10) {
+                               clearInterval(checkInterval);
+                               console.warn('HyperlocalManager not available after 10 attempts');
+                               if (button) {
+                                   button.disabled = false;
+                                   button.textContent = 'Find Safe Routes';
+                               }
+                           }
+                       }, 200);
+                   }
+               };
+               
+               // Direct safe routes function that works without HyperlocalManager
+               window.findSafeRoutesDirect = async function() {
+                   const routesList = document.getElementById('routesList');
+                   if (!routesList) {
+                       console.error('routesList element not found');
+                       return;
+                   }
+                   
+                   routesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary, #94a3b8);">Finding safe routes...</div>';
+                   
+                   try {
+                       const from = document.getElementById('routeFrom')?.value || 'Home';
+                       const to = document.getElementById('routeTo')?.value || 'Office';
+                       
+                       // Get coordinates
+                       const fromCoords = { lat: 28.6139, lon: 77.2090 }; // Central Delhi default
+                       let toCoords = { lat: 28.6315, lon: 77.2167 }; // Default destination
+                       
+                       // Try to get real-time AQI first
+                       let currentAqi = 250;
+                       try {
+                           const aqiResponse = await fetch('http://localhost:5000/api/overview/current-aqi?t=' + Date.now());
+                           if (aqiResponse.ok) {
+                               const aqiData = await aqiResponse.json();
+                               currentAqi = aqiData.aqi || aqiData.current_aqi || 250;
+                           }
+                       } catch (e) {
+                           console.warn('Could not fetch current AQI:', e);
+                       }
+                       
+                       // Try the safe routes endpoint
+                       const apiBase = window.location.origin.includes('localhost') || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : '';
+                       const response = await fetch(`${apiBase}/api/advanced-enhanced/safe-routes?start_lat=${fromCoords.lat}&start_lon=${fromCoords.lon}&end_lat=${toCoords.lat}&end_lon=${toCoords.lon}&t=${Date.now()}`);
+                       
+                       if (response.ok) {
+                           const data = await response.json();
+                           if (data.status === 'success' && data.routes && data.routes.length > 0) {
+                               displayRoutes(data.routes);
+                               return;
+                           }
+                       }
+                       
+                       // Fallback: Generate routes with real-time AQI
+                       const routes = [
+                           {
+                               route_type: 'safest',
+                               total_duration: 45,
+                               avg_aqi: Math.max(50, currentAqi - 40),
+                               total_distance: 12.5,
+                               route_score: Math.min(100, Math.max(0, 100 - (currentAqi - 40) / 5))
+                           },
+                           {
+                               route_type: 'balanced',
+                               total_duration: 35,
+                               avg_aqi: Math.max(50, currentAqi - 20),
+                               total_distance: 10.2,
+                               route_score: Math.min(100, Math.max(0, 100 - (currentAqi - 20) / 5))
+                           },
+                           {
+                               route_type: 'fastest',
+                               total_duration: 25,
+                               avg_aqi: Math.max(50, currentAqi + 20),
+                               total_distance: 8.5,
+                               route_score: Math.min(100, Math.max(0, 100 - (currentAqi + 20) / 5))
+                           }
+                       ];
+                       
+                       displayRoutes(routes);
+                   } catch (error) {
+                       console.error('Error finding routes:', error);
+                       routesList.innerHTML = '<div class="route-option" style="text-align: center; padding: 2rem; color: var(--text-secondary, #94a3b8);">Error loading routes. Please try again.</div>';
+                   }
+                   
+                   function displayRoutes(routes) {
+                       routesList.innerHTML = '';
+                       routes.slice(0, 3).forEach((route, index) => {
+                           const div = document.createElement('div');
+                           div.className = 'route-option';
+                           
+                           const routeType = route.route_type || 'mixed';
+                           const duration = typeof route.total_duration === 'string' ? parseInt(route.total_duration.replace(/[^0-9]/g, '')) || 0 : route.total_duration || 0;
+                           const distance = typeof route.total_distance === 'string' ? parseFloat(route.total_distance.replace(/[^0-9.]/g, '')) || 0 : route.total_distance || 0;
+                           const aqi = route.avg_aqi || 200;
+                           const score = route.route_score || 70;
+                           
+                           const routeIcons = { metro: 'subway', cycling: 'bicycle', walking: 'walking', fastest: 'tachometer-alt', safest: 'shield-alt', balanced: 'balance-scale', mixed: 'route' };
+                           const routeNames = { metro: 'Metro Route', cycling: 'Cycling Route', walking: 'Walking Route', fastest: 'Fastest Route', safest: 'Safest Route', balanced: 'Balanced Route', mixed: 'Mixed Route' };
+                           const scoreLabels = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Moderate' : 'Fair';
+                           
+                           div.innerHTML = `
+                               <div class="route-info">
+                                   <div class="route-type">
+                                       <i class="fas fa-${routeIcons[routeType] || 'route'}"></i>
+                                       <span>${routeNames[routeType] || 'Route'}</span>
+                                   </div>
+                                   <div class="route-stats">
+                                       <span class="route-duration">${duration} min</span>
+                                       <span class="route-aqi">${Math.round(aqi)} AQI</span>
+                                       <span class="route-distance">${distance.toFixed(1)} km</span>
+                                   </div>
+                               </div>
+                               <div class="route-score">${scoreLabels}</div>
+                           `;
+                           routesList.appendChild(div);
+                       });
+                   }
+               };
+               
+               // Fallback for find safe routes (kept for compatibility)
+               window.findSafeRoutesFallback = window.findSafeRoutesHandler;
+               
+               // Handler for activity buttons
+               window.handleActivityButtonClick = function(activity, buttonElement) {
+                   // Update active button
+                   document.querySelectorAll('.activity-btn').forEach(btn => {
+                       btn.classList.remove('active');
+                   });
+                   if (buttonElement) {
+                       buttonElement.classList.add('active');
+                   }
+                   
+                   // Get recommendations
+                   if (window.hyperlocalManager && typeof window.hyperlocalManager.getActivityRecommendations === 'function') {
+                       window.hyperlocalManager.getActivityRecommendations(activity);
+                   } else {
+                       // Direct call without manager
+                       getActivityRecommendationsDirect(activity);
+                       
+                       // Also wait for manager initialization
+                       let attempts = 0;
+                       const checkInterval = setInterval(() => {
+                           attempts++;
+                           if (window.hyperlocalManager && typeof window.hyperlocalManager.getActivityRecommendations === 'function') {
+                               clearInterval(checkInterval);
+                               window.hyperlocalManager.getActivityRecommendations(activity);
+                           } else if (attempts > 10) {
+                               clearInterval(checkInterval);
+                           }
+                       }, 200);
+                   }
+               };
+               
+               // Direct activity recommendations function
+               window.getActivityRecommendationsDirect = async function(activity) {
+                   const container = document.getElementById('activityRecommendation');
+                   if (!container) {
+                       console.error('activityRecommendation container not found');
+                       return;
+                   }
+                   
+                   // Show loading
+                   container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary, #94a3b8);">Loading recommendations...</div>';
+                   
+                   try {
+                       // Get real-time AQI first
+                       const apiBase = window.location.origin.includes('localhost') || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : '';
+                       let currentAqi = 250;
+                       
+                       try {
+                           const aqiResponse = await fetch(`${apiBase}/api/overview/current-aqi?t=${Date.now()}`);
+                           if (aqiResponse.ok) {
+                               const aqiData = await aqiResponse.json();
+                               currentAqi = aqiData.aqi || aqiData.current_aqi || 250;
+                           }
+                       } catch (e) {
+                           console.warn('Could not fetch current AQI:', e);
+                       }
+                       
+                       // Try the activity recommendations endpoint
+                       const coords = { lat: 28.6139, lon: 77.2090 }; // Central Delhi default
+                       const response = await fetch(`${apiBase}/api/advanced/activity-recommendations?lat=${coords.lat}&lon=${coords.lon}&activity=${activity}&duration=60&t=${Date.now()}`);
+                       
+                       if (response.ok) {
+                           const data = await response.json();
+                           if (data.status === 'success' && data.activity_recommendations) {
+                               displayActivityRecommendations(data.activity_recommendations, currentAqi);
+                               return;
+                           }
+                       }
+                       
+                       // Fallback: Generate recommendations based on real-time AQI
+                       generateActivityRecommendations(activity, currentAqi);
+                   } catch (error) {
+                       console.error('Error getting activity recommendations:', error);
+                       generateActivityRecommendations(activity, 250);
+                   }
+                   
+                   function displayActivityRecommendations(data, currentAqi) {
+                       const status = currentAqi <= 100 ? 'good' : currentAqi <= 200 ? 'moderate' : 'poor';
+                       const statusClass = status === 'good' ? 'good' : status === 'moderate' ? 'moderate' : 'poor';
+                       const statusIcons = { good: 'check-circle', moderate: 'exclamation-circle', poor: 'exclamation-triangle' };
+                       const statusTexts = { good: 'Safe for outdoor activities', moderate: 'Moderate conditions', poor: 'Poor air quality' };
+                       
+                       let message = 'Check current air quality before outdoor activities.';
+                       let bestTime = '6-8 AM';
+                       let locationTip = 'Try parks and green areas';
+                       
+                       if (data.recommendations && data.recommendations.length > 0) {
+                           message = data.recommendations[0].message || data.recommendations[0].type || message;
+                       }
+                       if (data.time_recommendations && data.time_recommendations.length > 0) {
+                           bestTime = data.time_recommendations[0].best_time || bestTime;
+                       }
+                       if (data.location_tip) {
+                           locationTip = data.location_tip;
+                       }
+                       
+                       container.innerHTML = `
+                           <div class="recommendation-status ${statusClass}">
+                               <i class="fas fa-${statusIcons[status]}"></i>
+                               <span>${statusTexts[status]}</span>
+                           </div>
+                           <div class="recommendation-details">
+                               <p>${message}</p>
+                               <div class="recommendation-tips">
+                                   <div class="tip-item">
+                                       <i class="fas fa-clock"></i>
+                                       <span>Best time: ${bestTime}</span>
+                                   </div>
+                                   <div class="tip-item">
+                                       <i class="fas fa-map-marker-alt"></i>
+                                       <span>${locationTip}</span>
+                                   </div>
+                               </div>
+                           </div>
+                       `;
+                   }
+                   
+                   function generateActivityRecommendations(activity, aqi) {
+                       let message, bestTime, locationTip, status;
+                       
+                       if (activity === 'walking') {
+                           if (aqi <= 100) {
+                               status = 'good';
+                               message = 'Current air quality is suitable for walking. Consider wearing a mask if you have respiratory sensitivities.';
+                           } else if (aqi <= 200) {
+                               status = 'moderate';
+                               message = 'Air quality is moderate for walking. Limit outdoor walking time and consider wearing a mask.';
+                           } else {
+                               status = 'poor';
+                               message = 'Air quality is poor for walking. Consider indoor alternatives or wear an N95 mask if you must go outside.';
+                           }
+                           bestTime = '6-8 AM';
+                           locationTip = 'Try parks and green areas';
+                       } else if (activity === 'running') {
+                           if (aqi <= 100) {
+                               status = 'good';
+                               message = 'Good conditions for outdoor running. Stay hydrated and monitor your breathing.';
+                           } else if (aqi <= 150) {
+                               status = 'moderate';
+                               message = 'Air quality is moderate for running. Reduce intensity and duration. Consider indoor alternatives.';
+                           } else {
+                               status = 'poor';
+                               message = 'Avoid outdoor running due to poor air quality. Use indoor treadmill or gym instead.';
+                           }
+                           bestTime = '5-7 AM';
+                           locationTip = 'Avoid high-traffic areas';
+                       } else if (activity === 'cycling') {
+                           if (aqi <= 150) {
+                               status = 'good';
+                               message = 'Good conditions for cycling. Use dedicated cycling lanes away from traffic.';
+                           } else if (aqi <= 200) {
+                               status = 'moderate';
+                               message = 'Air quality is moderate for cycling. Wear an N95 mask and choose routes through parks.';
+                           } else {
+                               status = 'poor';
+                               message = 'Air quality is poor for cycling. Consider wearing an N95 mask or choose indoor cycling alternatives.';
+                           }
+                           bestTime = '6-8 AM';
+                           locationTip = 'Use dedicated cycling lanes away from traffic';
+                       } else {
+                           status = 'moderate';
+                           message = 'Check current air quality before outdoor activities.';
+                           bestTime = '6-8 AM';
+                           locationTip = 'Try parks and green areas';
+                       }
+                       
+                       const statusClass = status === 'good' ? 'good' : status === 'moderate' ? 'moderate' : 'poor';
+                       const statusIcons = { good: 'check-circle', moderate: 'exclamation-circle', poor: 'exclamation-triangle' };
+                       const statusTexts = { good: 'Safe for outdoor activities', moderate: 'Moderate conditions', poor: 'Poor air quality' };
+                       
+                       container.innerHTML = `
+                           <div class="recommendation-status ${statusClass}">
+                               <i class="fas fa-${statusIcons[status]}"></i>
+                               <span>${statusTexts[status]}</span>
+                           </div>
+                           <div class="recommendation-details">
+                               <p>${message}</p>
+                               <div class="recommendation-tips">
+                                   <div class="tip-item">
+                                       <i class="fas fa-clock"></i>
+                                       <span>Best time: ${bestTime}</span>
+                                   </div>
+                                   <div class="tip-item">
+                                       <i class="fas fa-map-marker-alt"></i>
+                                       <span>${locationTip}</span>
+                                   </div>
+                               </div>
+                           </div>
+                       `;
+                   }
+               };
+               
+               // Fallback for activity buttons (kept for compatibility)
+               window.handleActivityClick = window.handleActivityButtonClick;
+           }
+           </script>
+           <script src="js/enhanced-forecast.js" defer></script>
+           <script src="js/pollution-monitoring.js?v=2"></script>
+           <script src="js/health-guidance.js?v=1"></script>
+           <script src="js/mobile-app.js" defer></script>
+</body>
+</html>

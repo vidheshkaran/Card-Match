@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast Chart Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0f172a;
+            color: white;
+            font-family: Inter, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        .timeline-header h3 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .period-indicator {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-left: 8px;
+        }
+        
+        .timeline-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-timeline {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 12px;
+        }
+        
+        .btn-timeline:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-timeline.active {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .timeline-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            height: 400px;
+        }
+        
+        #forecastChart {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .debug-info {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Forecast Chart Test</h1>
+        
+        <div class="timeline-header">
+            <h3>Hourly Forecast <span class="period-indicator">24 Hours</span></h3>
+            <div class="timeline-controls">
+                <button class="btn-timeline active" data-period="24h">
+                    <i class="fas fa-clock"></i> 24H
+                </button>
+                <button class="btn-timeline" data-period="48h">
+                    <i class="fas fa-calendar-day"></i> 48H
+                </button>
+                <button class="btn-timeline" data-period="72h">
+                    <i class="fas fa-calendar-week"></i> 72H
+                </button>
+            </div>
+        </div>
+        
+        <div class="timeline-chart">
+            <canvas id="forecastChart"></canvas>
+        </div>
+        
+        <div class="debug-info" id="debugInfo">
+            <h3>Debug Information:</h3>
+            <div id="debugContent">Loading...</div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></script>
+    <script src="frontend/js/forecast-chart.js"></script>
+    
+    <script>
+        // Debug script
+        setTimeout(() => {
+            const debugContent = document.getElementById('debugContent');
+            const chart = window.forecastChart;
+            
+            if (chart) {
+                debugContent.innerHTML = `
+                    <p><strong>Chart Status:</strong> ${chart.isLoading ? 'Loading' : 'Ready'}</p>
+                    <p><strong>Canvas Found:</strong> ${chart.canvas ? 'Yes' : 'No'}</p>
+                    <p><strong>Current Period:</strong> ${chart.currentPeriod}</p>
+                    <p><strong>Data Available:</strong> ${chart.data ? 'Yes' : 'No'}</p>
+                    <p><strong>Forecast Data:</strong> ${JSON.stringify(Object.keys(chart.forecastData))}</p>
+                `;
+            } else {
+                debugContent.innerHTML = '<p><strong>Error:</strong> Chart not initialized</p>';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
+
+

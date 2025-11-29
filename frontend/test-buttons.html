@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+</head>
+<body>
+    <h1>Test Buttons</h1>
+    <button onclick="testMaskGuidance()">Test Mask Guidance</button>
+    <button onclick="testSafeRoutes()">Test Safe Routes</button>
+    <script>
+        function testMaskGuidance() {
+            console.log('Testing showMaskGuidance...');
+            if (typeof window.showMaskGuidance === 'function') {
+                window.showMaskGuidance();
+            } else {
+                alert('showMaskGuidance not available');
+            }
+        }
+        function testSafeRoutes() {
+            console.log('Testing showSafeRoutes...');
+            if (typeof window.showSafeRoutes === 'function') {
+                window.showSafeRoutes();
+            } else {
+                alert('showSafeRoutes not available');
+            }
+        }
+    </script>
+    <script src="js/health-guidance.js"></script>
+</body>
+</html>

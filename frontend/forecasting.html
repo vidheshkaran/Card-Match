@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Watch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modern-ui.css">
+        <link rel="stylesheet" href="css/dashboard-navigation.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <!-- Load Chart.js without defer to ensure it's available before forecasting.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>AirWatch AI</h2>
+                        <span>Delhi-NCR Monitor</span>
+                    </div>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link" data-page="overview">Overview</a>
+                    <a href="source_analysis.html" class="nav-link" data-page="source-analysis">Source Analysis</a>
+                    <a href="citizen_portal.html" class="nav-link" data-page="community">Community</a>
+                    <a href="policy_dashboard.html" class="nav-link" data-page="policy-dashboard">Policy Dashboard</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn-back-home" onclick="navigateToPage('overview')" title="Go to Overview">
+                        <i class="fas fa-home"></i>
+                        <span>Overview</span>
+                    </button>
+                    <button class="btn-back" onclick="goBack()" title="Go Back">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button class="btn-notification" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="theme-toggle-container">
+                        <button class="btn-theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="theme-menu" id="themeMenu">
+                            <div class="theme-option active" data-theme="dark">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark</span>
+                            </div>
+                            <div class="theme-option" data-theme="light">
+                                <i class="fas fa-sun"></i>
+                                <span>Light</span>
+                            </div>
+                            <div class="theme-option" data-theme="auto">
+                                <i class="fas fa-adjust"></i>
+                                <span>Auto</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="nav-toggle" id="navToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <header class="forecast-hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>AI-Powered Air Quality Forecasting</h1>
+                        <p>Advanced machine learning models predict air quality trends with 89% accuracy</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="currentAQI">245</span>
+                                <span class="stat-label">Current AQI</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="forecastAccuracy">89%</span>
+                                <span class="stat-label">Forecast Accuracy</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="modelConfidence">92%</span>
+                                <span class="stat-label">Model Confidence</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="forecast-animation" id="forecastAnimation">
+                            <div class="weather-icon">
+                                <i class="fas fa-cloud-sun"></i>
+                            </div>
+                            <div class="prediction-bubbles">
+                                <div class="bubble" style="--delay: 0s"></div>
+                                <div class="bubble" style="--delay: 1s"></div>
+                                <div class="bubble" style="--delay: 2s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Forecast Controls -->
+            <section class="forecast-controls">
+                <div class="control-group">
+                    <label for="forecastType">Forecast Type</label>
+                    <select id="forecastType" class="control-select">
+                        <option value="advanced">Advanced AI Forecast</option>
+                        <option value="predictive">Predictive Modeling</option>
+                        <option value="seasonal">Seasonal Forecast</option>
+                        <option value="scenario">Scenario Analysis</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="timeHorizon">Time Horizon</label>
+                    <select id="timeHorizon" class="control-select">
+                        <option value="6h">6 Hours</option>
+                        <option value="24h" selected>24 Hours</option>
+                        <option value="72h">72 Hours</option>
+                        <option value="weekly">1 Week</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="location">Location</label>
+                    <select id="location" class="control-select">
+                        <option value="delhi-ncr" selected>Delhi-NCR</option>
+                        <option value="central-delhi">Central Delhi</option>
+                        <option value="east-delhi">East Delhi</option>
+                        <option value="west-delhi">West Delhi</option>
+                        <option value="south-delhi">South Delhi</option>
+                        <option value="north-delhi">North Delhi</option>
+                    </select>
+                </div>
+                <button class="btn-primary" id="updateForecast">
+                    <i class="fas fa-sync-alt"></i>
+                    Update Forecast
+                </button>
+            </section>
+
+            <!-- Main Forecast Dashboard -->
+            <section class="forecast-dashboard">
+                <!-- Current Conditions -->
+                <div class="dashboard-card current-conditions">
+                    <div class="card-header">
+                        <h3><i class="fas fa-thermometer-half"></i> Current Conditions</h3>
+                        <span class="last-updated" id="lastUpdated">Updated just now</span>
+                    </div>
+                    <div class="current-metrics">
+                        <div class="metric-item">
+                            <div class="metric-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="currentWindSpeed">8.2 km/h</span>
+                                <span class="metric-label">Wind Speed</span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-icon">
+                                <i class="fas fa-temperature-high"></i>
+                            </div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="currentTemperature">28.5°C</span>
+                                <span class="metric-label">Temperature</span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="currentHumidity">45%</span>
+                                <span class="metric-label">Humidity</span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-icon">
+                                <i class="fas fa-compress-arrows-alt"></i>
+                            </div>
+                            <div class="metric-content">
+                                <span class="metric-value" id="currentPressure">1013 hPa</span>
+                                <span class="metric-label">Pressure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Chart -->
+                <div class="dashboard-card forecast-chart">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> AQI Forecast Trend</h3>
+                        <div class="chart-controls">
+                            <button class="chart-btn active" data-period="24h">24H</button>
+                            <button class="chart-btn" data-period="72h">72H</button>
+                            <button class="chart-btn" data-period="weekly">1W</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="forecastChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #3b82f6;"></span>
+                            <span>Actual AQI</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #10b981;"></span>
+                            <span>AI Prediction</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #f59e0b;"></span>
+                            <span>Confidence Range</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights -->
+                <div class="dashboard-card ai-insights">
+                    <div class="card-header">
+                        <h3><i class="fas fa-brain"></i> AI Insights</h3>
+                        <span class="confidence-score">Confidence: <span id="aiConfidence">92%</span></span>
+                    </div>
+                    <div class="insights-content">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Key Factors</h4>
+                                <p id="keyFactors">Stubble burning intensity and temperature inversion are primary drivers</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Trend Analysis</h4>
+                                <p id="trendAnalysis">AQI expected to worsen by 15% in next 24 hours</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Recommendations</h4>
+                                <p id="recommendations">Implement traffic restrictions and industrial emission controls</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal Context -->
+                <div class="dashboard-card seasonal-context">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Seasonal Context</h3>
+                        <span class="season-indicator" id="currentSeason">Post-Monsoon</span>
+                    </div>
+                    <div class="seasonal-content">
+                        <div class="season-info">
+                            <div class="season-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="season-details">
+                                <h4 id="seasonName">Post-Monsoon (Stubble Burning)</h4>
+                                <p id="seasonDescription">Peak stubble burning season in Punjab-Haryana affecting Delhi-NCR</p>
+                                <div class="season-impact">
+                                    <span class="impact-level high">High Impact</span>
+                                    <span class="impact-source">Primary Source: Stubble Burning</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="seasonal-chart">
+                            <canvas id="seasonalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Performance -->
+                <div class="dashboard-card model-performance">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cogs"></i> Model Performance</h3>
+                        <span class="model-version">v3.2.1</span>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="metric-gauge">
+                            <div class="gauge-container">
+                                <canvas id="accuracyGauge"></canvas>
+                                <div class="gauge-label">Accuracy</div>
+                                <div class="gauge-value">89.2%</div>
+                            </div>
+                        </div>
+                        <div class="metric-gauge">
+                            <div class="gauge-container">
+                                <canvas id="confidenceGauge"></canvas>
+                                <div class="gauge-label">Confidence</div>
+                                <div class="gauge-value">92.5%</div>
+                            </div>
+                        </div>
+                        <div class="metric-gauge">
+                            <div class="gauge-container">
+                                <canvas id="uptimeGauge"></canvas>
+                                <div class="gauge-label">Uptime</div>
+                                <div class="gauge-value">99.1%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="model-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Model:</span>
+                            <span class="detail-value">RandomForest v3.2.1</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Ensemble Models:</span>
+                            <span class="detail-value">LSTM, XGBoost, Linear Regression</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Last Trained:</span>
+                            <span class="detail-value">2024-01-15T10:30:00Z</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Training Data:</span>
+                            <span class="detail-value">2 years</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts and Warnings -->
+                <div class="dashboard-card alerts-warnings">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-circle"></i> Forecast Alerts</h3>
+                        <span class="alert-count" id="alertCount">3 Active</span>
+                    </div>
+                    <div class="alerts-list" id="alertsList">
+                        <div class="alert-item warning">
+                            <div class="alert-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <h4>Unhealthy Conditions Predicted</h4>
+                                <p>AQI expected to reach 285 in next 24 hours</p>
+                                <span class="alert-timeframe">Next 24 hours</span>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <div class="alert-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <h4>Seasonal Factor Alert</h4>
+                                <p>Stubble burning season peak affecting air quality</p>
+                                <span class="alert-timeframe">Ongoing</span>
+                            </div>
+                        </div>
+                        <div class="alert-item success">
+                            <div class="alert-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <h4>Model Update Available</h4>
+                                <p>New model version with improved accuracy</p>
+                                <span class="alert-timeframe">Available now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-content">
+                    <p>&copy; 2025 AirWatch AI. All rights reserved.</p>
+                    <p>Powered by Advanced AI & Machine Learning</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/simple-navigation.js"></script>
+    <!-- Load other scripts with defer for parallel loading -->
+    <script src="js/modern-ui.js" defer></script>
+    <script src="js/theme-toggle.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <!-- Load forecasting.js without defer to initialize immediately -->
+    <script src="js/forecasting.js"></script>
+    <script src="js/charts.js" defer></script>
+    <script src="js/gauges.js" defer></script>
+</body>
+</html>

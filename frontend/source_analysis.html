@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Watch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <!-- Critical CSS - Load first -->
+    <link rel="stylesheet" href="css/modern-ui.css">
+    
+    <!-- Non-critical CSS - Load after -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/holographic.css">
+    <link rel="stylesheet" href="css/dashboard-navigation.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
+    <link rel="stylesheet" href="css/new-sections.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="dark-theme" data-theme="dark">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>AirWatch AI</h2>
+                    <span>Delhi-NCR Monitor</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="source_analysis.html" class="nav-link active">Source Analysis</a>
+                <a href="citizen_portal.html" class="nav-link">Community</a>
+                <a href="policy_dashboard.html" class="nav-link">Policy Dashboard</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-back" onclick="goBack()" title="Go Back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+                <button class="btn-notification" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="theme-toggle-container">
+                    <button class="btn-theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="theme-menu" id="themeMenu">
+                        <div class="theme-option active" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option" data-theme="auto">
+                            <i class="fas fa-adjust"></i>
+                            <span>Auto</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="background: var(--bg-primary, #0f172a); color: var(--text-primary, #ffffff); min-height: 100vh; padding-top: 100px;">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1>Pollution Source Analysis</h1>
+                <p>Deep dive into pollution sources with AI-powered identification and impact assessment</p>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Delhi AQI</span>
+                    <span class="stat-value aqi-poor">287</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Active Alerts</span>
+                    <span class="stat-value alerts">12</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Grid -->
+        <div class="analysis-grid">
+            <!-- AI Source Detection Panel -->
+            <div class="analysis-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-search"></i>
+                        <span>AI SOURCE DETECTION</span>
+                    </div>
+                    <div class="panel-status">
+                        <span class="status-dot active"></span>
+                        <span>Live</span>
+                    </div>
+                </div>
+                
+                <div class="panel-content">
+                    <!-- Analysis Confidence -->
+                    <div class="confidence-section">
+                        <div class="confidence-header">
+                            <span class="confidence-label">Analysis Confidence</span>
+                            <span class="confidence-value">85.0%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Seasonal Context -->
+                    <div class="seasonal-context">
+                        <h4>Seasonal Context</h4>
+                        <div class="context-item">
+                            <span class="context-label">Season:</span>
+                            <span class="context-value">Monsoon</span>
+                        </div>
+                        <div class="context-item">
+                            <span class="context-label">Primary Concern:</span>
+                            <span class="context-value">Industrial Emissions</span>
+                        </div>
+                    </div>
+
+                    <!-- Identified Sources -->
+                    <div class="identified-sources">
+                        <h4>Identified Sources</h4>
+                        <div class="sources-list">
+                            <div class="source-item">
+                                <div class="source-info">
+                                    <span class="source-name">Stubble Burning</span>
+                                    <span class="source-location">Fatehabad District, Haryana</span>
+                                </div>
+                                <div class="source-metrics">
+                                    <span class="source-confidence">Confidence: 100.0%</span>
+                                    <span class="source-contribution">Contribution: 40%</span>
+                                </div>
+                            </div>
+                            <div class="source-item">
+                                <div class="source-info">
+                                    <span class="source-name">Industrial</span>
+                                    <span class="source-location">Narela Industrial Area</span>
+                                </div>
+                                <div class="source-metrics">
+                                    <span class="source-confidence">Confidence: 85.0%</span>
+                                    <span class="source-contribution">Contribution: 25%</span>
+                                </div>
+                            </div>
+                            <div class="source-item">
+                                <div class="source-info">
+                                    <span class="source-name">Vehicular</span>
+                                    <span class="source-location">ITO Junction</span>
+                                </div>
+                                <div class="source-metrics">
+                                    <span class="source-confidence">Confidence: 75.0%</span>
+                                    <span class="source-contribution">Contribution: 35%</span>
+                                </div>
+                            </div>
+                            <div class="source-item">
+                                <div class="source-info">
+                                    <span class="source-name">Construction</span>
+                                    <span class="source-location">Noida Construction Sites</span>
+                                </div>
+                                <div class="source-metrics">
+                                    <span class="source-confidence">Confidence: 80.0%</span>
+                                    <span class="source-contribution">Contribution: 20%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Holographic Source Analysis Panel -->
+            <div class="analysis-panel holographic-card" style="background: var(--bg-secondary, #1e293b); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 12px; padding: 1.5rem; color: var(--text-primary, #ffffff);">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color, rgba(59, 130, 246, 0.2));">
+                    <div class="panel-title" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-primary, #ffffff); font-weight: 600; font-size: 1rem;">
+                        <i class="fas fa-cube" style="color: var(--secondary-color, #8b5cf6);"></i>
+                        <span>HOLOGRAPHIC SOURCE ANALYSIS</span>
+                    </div>
+                </div>
+                
+                <div class="panel-content" style="color: var(--text-primary, #ffffff);">
+                    <!-- Holographic Container -->
+                    <div id="holographicContainer" class="holographic-container" style="background: var(--bg-primary, #0f172a); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; min-height: 400px; height: 400px; position: relative; margin-bottom: 1.5rem; padding-bottom: 0;">
+                        <div class="holographic-placeholder" style="color: var(--text-secondary, #94a3b8); font-size: 1rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
+                            Source Impact Distribution
+                        </div>
+                    </div>
+                    
+                    <!-- Holographic Controls -->
+                    <div class="holographic-controls" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="holographic-btn" id="holographicToggle" style="flex: 1; min-width: 150px; padding: 0.75rem 1rem; background: var(--primary-color, #3b82f6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s;">
+                            <i class="fas fa-magic"></i>
+                            <span>Toggle Holographic</span>
+                        </button>
+                        <button class="holographic-btn" id="3DToggle" style="flex: 1; min-width: 150px; padding: 0.75rem 1rem; background: var(--bg-primary, #0f172a); color: var(--text-primary, #ffffff); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s;">
+                            <i class="fas fa-cube"></i>
+                            <span>Toggle 3D</span>
+                        </button>
+                        <button class="holographic-btn" id="refreshHolographic" style="flex: 1; min-width: 150px; padding: 0.75rem 1rem; background: var(--bg-primary, #0f172a); color: var(--text-primary, #ffffff); border: 1px solid var(--border-color, rgba(59, 130, 246, 0.2)); border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s;">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Refresh</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/simple-navigation.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/particle-effects.js"></script>
+    <!-- Simple guaranteed-to-work version -->
+    <script src="js/source-analysis-simple.js"></script>
+    <!-- Original versions as backup -->
+    <script src="js/holographic-charts.js"></script>
+    <script src="js/source-analysis.js"></script>
+    <script src="js/force-render.js"></script>
+</body>
+</html>

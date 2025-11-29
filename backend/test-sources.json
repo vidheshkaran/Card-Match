@@ -1,0 +1,207 @@
+﻿[
+    {
+        "confidence":  0.85,
+        "contribution":  32.0,
+        "control_measures":  "Traffic management,odd-even",
+        "description":  "Contributing 32% to overall pollution levels with 85% confidence",
+        "hotspots":  [
+                         "ITO Junction",
+                         "Delhi Gate",
+                         "CP Metro Station",
+                         "India Gate",
+                         "Karol Bagh"
+                     ],
+        "impact":  "High",
+        "impact_level":  "High",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "ITO Junction",
+        "pollutants":  [
+                           "PM2.5",
+                           "NOx",
+                           "CO"
+                       ],
+        "type":  "Vehicular"
+    },
+    {
+        "confidence":  0.92,
+        "contribution":  24.0,
+        "control_measures":  "Emission controls,scrubbers",
+        "description":  "Contributing 24% to overall pollution levels with 92% confidence",
+        "hotspots":  [
+                         "Mayapuri Industrial",
+                         "Anand Parbat",
+                         "Okhla Industrial",
+                         "Narela Industrial"
+                     ],
+        "impact":  "High",
+        "impact_level":  "High",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Mayapuri Industrial Area",
+        "pollutants":  [
+                           "SO2",
+                           "PM2.5"
+                       ],
+        "type":  "Industrial"
+    },
+    {
+        "confidence":  0.78,
+        "contribution":  19.0,
+        "control_measures":  "Dust suppression,water sprinkling",
+        "description":  "Contributing 19% to overall pollution levels with 78% confidence",
+        "hotspots":  [
+                         "Dwarka Expressway",
+                         "Noida Construction Sites",
+                         "Gurgaon Highrise Projects"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Medium",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Dwarka Expressway",
+        "pollutants":  [
+                           "PM10",
+                           "PM2.5"
+                       ],
+        "type":  "Construction"
+    },
+    {
+        "confidence":  0.95,
+        "contribution":  15.0,
+        "control_measures":  "Satellite monitoring,incentives",
+        "description":  "Contributing 15% to overall pollution levels with 95% confidence",
+        "hotspots":  [
+                         "Punjab-Haryana Border",
+                         "Ludhiana District",
+                         "Karnal District",
+                         "Fatehabad District"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "High",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Punjab-Haryana Border",
+        "pollutants":  [
+                           "PM2.5",
+                           "PM10",
+                           "CO"
+                       ],
+        "type":  "Stubble Burning"
+    },
+    {
+        "confidence":  0.65,
+        "contribution":  7.0,
+        "control_measures":  "Street cleaning,greening",
+        "description":  "Contributing 7% to overall pollution levels with 65% confidence",
+        "hotspots":  [
+                         "Various locations",
+                         "Construction sites",
+                         "Unpaved roads"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Medium",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Various locations",
+        "pollutants":  [
+                           "PM10"
+                       ],
+        "type":  "Dust"
+    },
+    {
+        "confidence":  0.45,
+        "contribution":  3.0,
+        "control_measures":  "General measures,awareness",
+        "description":  "Contributing 3% to overall pollution levels with 45% confidence",
+        "hotspots":  [
+                         "Miscellaneous sources",
+                         "Unknown sources"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Low",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Miscellaneous",
+        "pollutants":  [
+                           "Various"
+                       ],
+        "type":  "Other"
+    },
+    {
+        "confidence":  0.88,
+        "contribution":  12.0,
+        "control_measures":  "Flue gas treatment,emission limits",
+        "description":  "Contributing 12% to overall pollution levels with 88% confidence",
+        "hotspots":  [
+                         "NTPC Badarpur",
+                         "Rajghat Power Plant",
+                         "Indraprastha Power Station"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "High",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "NTPC Badarpur",
+        "pollutants":  [
+                           "SO2",
+                           "PM2.5",
+                           "NOx"
+                       ],
+        "type":  "Power Plants"
+    },
+    {
+        "confidence":  0.72,
+        "contribution":  8.0,
+        "control_measures":  "Waste management,biomining",
+        "description":  "Contributing 8% to overall pollution levels with 72% confidence",
+        "hotspots":  [
+                         "Bhalswa Landfill",
+                         "Okhla Landfill",
+                         "Ghazipur Landfill"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Medium",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Landfill sites",
+        "pollutants":  [
+                           "PM2.5",
+                           "PM10",
+                           "CO"
+                       ],
+        "type":  "Waste Burning"
+    },
+    {
+        "confidence":  0.58,
+        "contribution":  5.0,
+        "control_measures":  "LPG promotion,awareness",
+        "description":  "Contributing 5% to overall pollution levels with 58% confidence",
+        "hotspots":  [
+                         "Residential areas",
+                         "Slum clusters",
+                         "Unauthorized colonies"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Medium",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Residential areas",
+        "pollutants":  [
+                           "PM2.5",
+                           "CO"
+                       ],
+        "type":  "Domestic"
+    },
+    {
+        "confidence":  0.62,
+        "contribution":  4.0,
+        "control_measures":  "Clean fuel promotion,subsidies",
+        "description":  "Contributing 4% to overall pollution levels with 62% confidence",
+        "hotspots":  [
+                         "Rural areas",
+                         "Slum clusters",
+                         "Unauthorized colonies"
+                     ],
+        "impact":  "Medium",
+        "impact_level":  "Low",
+        "last_detected":  "2023-10-05 08:30:00",
+        "location":  "Cooking and heating",
+        "pollutants":  [
+                           "PM2.5",
+                           "CO"
+                       ],
+        "type":  "Biomass"
+    }
+]

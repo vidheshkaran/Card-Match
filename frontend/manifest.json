@@ -1,0 +1,249 @@
+{
+  "name": "Air Watch AI",
+  "short_name": "AirWatch AI",
+  "description": "AI-powered air quality monitoring and forecasting platform for Delhi-NCR region",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["health", "environment", "weather", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AirWatch AI Home Dashboard"
+    },
+    {
+      "src": "screenshots/mobile-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AirWatch AI Mobile View"
+    },
+    {
+      "src": "screenshots/forecast.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI Forecasting Dashboard"
+    },
+    {
+      "src": "screenshots/hyperlocal.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Hyperlocal Air Quality"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Current AQI",
+      "short_name": "AQI",
+      "description": "View current air quality index",
+      "url": "/#dashboard",
+      "icons": [
+        {
+          "src": "icons/shortcut-aqi.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Forecast",
+      "short_name": "Forecast",
+      "description": "View air quality forecast",
+      "url": "/#forecast",
+      "icons": [
+        {
+          "src": "icons/shortcut-forecast.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Health Alerts",
+      "short_name": "Alerts",
+      "description": "View health advisories",
+      "url": "/#alerts",
+      "icons": [
+        {
+          "src": "icons/shortcut-alerts.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Safe Routes",
+      "short_name": "Routes",
+      "description": "Find safe routes",
+      "url": "/#hyperlocal",
+      "icons": [
+        {
+          "src": "icons/shortcut-routes.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+airwatch",
+      "url": "/?action=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/import-data",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "text/csv", "application/json"]
+        }
+      ]
+    }
+  },
+  "handle_links": "preferred",
+  "capture_links": "new-client",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "window_controls_overlay": {
+    "title_bar_style": "overlay",
+    "color": "#3b82f6"
+  },
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple"
+  ],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.airwatchai.app",
+      "id": "com.airwatchai.app"
+    }
+  ],
+  "categories": ["health", "environment", "weather", "utilities", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AirWatch AI Home Dashboard showing real-time air quality data"
+    },
+    {
+      "src": "screenshots/mobile-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile view of AirWatch AI with hyperlocal air quality information"
+    },
+    {
+      "src": "screenshots/forecast.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI-powered forecasting dashboard with 72-hour predictions"
+    },
+    {
+      "src": "screenshots/hyperlocal.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Hyperlocal air quality view with safe route suggestions"
+    },
+    {
+      "src": "screenshots/policy-dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Policy dashboard showing source analysis and intervention effectiveness"
+    },
+    {
+      "src": "screenshots/citizen-portal.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Citizen portal with health alerts and community features"
+    }
+  ]
+}

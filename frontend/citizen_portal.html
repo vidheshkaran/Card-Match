@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Watch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modern-ui.css">
+        <link rel="stylesheet" href="css/dashboard-navigation.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>AirWatch AI</h2>
+                        <span>Delhi-NCR Monitor</span>
+                    </div>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Overview</a>
+                    <a href="source_analysis.html" class="nav-link">Source Analysis</a>
+                    <a href="citizen_portal.html" class="nav-link active">Community</a>
+                    <a href="policy_dashboard.html" class="nav-link">Policy Dashboard</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn-back" onclick="goBack()" title="Go Back">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button class="btn-notification" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="theme-toggle-container">
+                        <button class="btn-theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="theme-menu" id="themeMenu">
+                            <div class="theme-option active" data-theme="dark">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark</span>
+                            </div>
+                            <div class="theme-option" data-theme="light">
+                                <i class="fas fa-sun"></i>
+                                <span>Light</span>
+                            </div>
+                            <div class="theme-option" data-theme="auto">
+                                <i class="fas fa-adjust"></i>
+                                <span>Auto</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="nav-toggle" id="navToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <header class="community-hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Community Hub</h1>
+                        <p>Join thousands of citizens working together for cleaner air in Delhi-NCR</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalUsers">150K+</span>
+                                <span class="stat-label">Active Users</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="reportsSubmitted">25K+</span>
+                                <span class="stat-label">Reports Submitted</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="challengesCompleted">87K+</span>
+                                <span class="stat-label">Challenges Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="community-animation" id="communityAnimation">
+                            <div class="user-avatars">
+                                <div class="avatar" style="--delay: 0s">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="avatar" style="--delay: 0.5s">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="avatar" style="--delay: 1s">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="avatar" style="--delay: 1.5s">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="connection-lines">
+                                <div class="line" style="--delay: 0s"></div>
+                                <div class="line" style="--delay: 0.3s"></div>
+                                <div class="line" style="--delay: 0.6s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- User Profile Section -->
+            <section class="user-profile-section">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="userName">EcoWarrior7</h3>
+                            <p class="user-level" id="userLevel">Air Quality Expert</p>
+                            <div class="user-stats">
+                                <span class="stat">
+                                    <i class="fas fa-star"></i>
+                                    <span id="userPoints">8,750</span> points
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-medal"></i>
+                                    <span id="userBadges">7</span> badges
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-fire"></i>
+                                    <span id="userStreak">12</span> day streak
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-progress">
+                        <div class="level-progress">
+                            <div class="progress-label">Next Level: Air Quality Master</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                            <div class="progress-text">1,250 points to go</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Community Dashboard -->
+            <section class="community-dashboard">
+                <!-- Active Challenges -->
+                <div class="dashboard-card challenges-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-trophy"></i> Active Challenges</h3>
+                        <span class="challenge-count" id="challengeCount">3 Active</span>
+                    </div>
+                    <div class="challenges-list" id="challengesList">
+                        <div class="challenge-item" data-challenge-id="clean_air_week">
+                            <div class="challenge-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="challenge-content">
+                                <h4>Clean Air Week Challenge</h4>
+                                <p>Report air quality issues in your area</p>
+                                <div class="challenge-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                    <span class="progress-text">75/100 reports</span>
+                                </div>
+                                <div class="challenge-reward">
+                                    <i class="fas fa-gift"></i>
+                                    <span>Clean Air Champion Badge</span>
+                                </div>
+                            </div>
+                            <div class="challenge-actions">
+                                <button class="btn-primary btn-sm challenge-continue-btn" data-challenge-id="clean_air_week">Continue</button>
+                            </div>
+                        </div>
+                        <div class="challenge-item" data-challenge-id="eco_warrior">
+                            <div class="challenge-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <div class="challenge-content">
+                                <h4>Eco Warrior Challenge</h4>
+                                <p>Complete 10 environmental actions</p>
+                                <div class="challenge-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">6/10 actions</span>
+                                </div>
+                                <div class="challenge-reward">
+                                    <i class="fas fa-gift"></i>
+                                    <span>Eco Warrior Badge + 500 points</span>
+                                </div>
+                            </div>
+                            <div class="challenge-actions">
+                                <button class="btn-primary btn-sm challenge-continue-btn" data-challenge-id="eco_warrior">Continue</button>
+                            </div>
+                        </div>
+                        <div class="challenge-item" data-challenge-id="health_advocate">
+                            <div class="challenge-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="challenge-content">
+                                <h4>Health Advocate Challenge</h4>
+                                <p>Share health tips with community</p>
+                                <div class="challenge-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">3/5 tips</span>
+                                </div>
+                                <div class="challenge-reward">
+                                    <i class="fas fa-gift"></i>
+                                    <span>Health Advocate Badge</span>
+                                </div>
+                            </div>
+                            <div class="challenge-actions">
+                                <button class="btn-primary btn-sm challenge-continue-btn" data-challenge-id="health_advocate">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="dashboard-card leaderboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-crown"></i> Community Leaderboard</h3>
+                        <span class="leaderboard-period">This Month</span>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div class="leaderboard-item rank-1">
+                            <div class="rank">1</div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h4>EcoWarrior7</h4>
+                                    <p>South Delhi</p>
+                                </div>
+                            </div>
+                            <div class="user-score">
+                                <span class="points">12,345</span>
+                                <span class="badges">12 badges</span>
+                            </div>
+                        </div>
+                        <div class="leaderboard-item rank-2">
+                            <div class="rank">2</div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h4>GreenCitizen</h4>
+                                    <p>Central Delhi</p>
+                                </div>
+                            </div>
+                            <div class="user-score">
+                                <span class="points">11,200</span>
+                                <span class="badges">10 badges</span>
+                            </div>
+                        </div>
+                        <div class="leaderboard-item rank-3">
+                            <div class="rank">3</div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h4>AirGuardian</h4>
+                                    <p>East Delhi</p>
+                                </div>
+                            </div>
+                            <div class="user-score">
+                                <span class="points">9,850</span>
+                                <span class="badges">9 badges</span>
+                            </div>
+                        </div>
+                        <div class="leaderboard-item current-user">
+                            <div class="rank">4</div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h4>You</h4>
+                                    <p>Your Location</p>
+                                </div>
+                            </div>
+                            <div class="user-score">
+                                <span class="points">8,750</span>
+                                <span class="badges">7 badges</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Discussions -->
+                <div class="dashboard-card discussions-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comments"></i> Community Discussions</h3>
+                        <button class="btn-secondary btn-sm" id="newDiscussionBtn" onclick="if(window.communityDashboard) { window.communityDashboard.showNewDiscussionModal(); } else { console.error('CommunityDashboard not initialized'); }">
+                            <i class="fas fa-plus"></i> New Discussion
+                        </button>
+                    </div>
+                    <div class="discussions-list" id="discussionsList">
+                        <div class="discussion-item" data-discussion-id="disc_1">
+                            <div class="discussion-header">
+                                <h4>Best air purifiers for Delhi homes</h4>
+                                <span class="discussion-stats">
+                                    <i class="fas fa-comment"></i> 23 replies
+                                    <i class="fas fa-eye"></i> 456 views
+                                </span>
+                            </div>
+                            <div class="discussion-meta">
+                                <span class="author">CleanAirLover</span>
+                                <span class="time">2 hours ago</span>
+                                <div class="tags">
+                                    <span class="tag">air-purifier</span>
+                                    <span class="tag">home</span>
+                                    <span class="tag">recommendations</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discussion-item" data-discussion-id="disc_2">
+                            <div class="discussion-header">
+                                <h4>Indoor plants that help with air quality</h4>
+                                <span class="discussion-stats">
+                                    <i class="fas fa-comment"></i> 18 replies
+                                    <i class="fas fa-eye"></i> 234 views
+                                </span>
+                            </div>
+                            <div class="discussion-meta">
+                                <span class="author">PlantParent</span>
+                                <span class="time">5 hours ago</span>
+                                <div class="tags">
+                                    <span class="tag">plants</span>
+                                    <span class="tag">indoor</span>
+                                    <span class="tag">air-quality</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discussion-item" data-discussion-id="disc_3">
+                            <div class="discussion-header">
+                                <h4>Morning jogging routes with better air quality</h4>
+                                <span class="discussion-stats">
+                                    <i class="fas fa-comment"></i> 31 replies
+                                    <i class="fas fa-eye"></i> 567 views
+                                </span>
+                            </div>
+                            <div class="discussion-meta">
+                                <span class="author">FitnessFanatic</span>
+                                <span class="time">1 hour ago</span>
+                                <div class="tags">
+                                    <span class="tag">exercise</span>
+                                    <span class="tag">routes</span>
+                                    <span class="tag">health</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Achievements -->
+                <div class="dashboard-card achievements-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-medal"></i> Your Achievements</h3>
+                        <span class="achievement-count" id="achievementCount">7 Badges</span>
+                    </div>
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <div class="achievement-item earned">
+                            <div class="achievement-icon">
+                                <i class="fas fa-flag"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>First Report</h4>
+                                <p>Submitted your first pollution report</p>
+                                <span class="achievement-date">Jan 10, 2024</span>
+                            </div>
+                        </div>
+                        <div class="achievement-item earned">
+                            <div class="achievement-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Community Helper</h4>
+                                <p>Helped 5 community members</p>
+                                <span class="achievement-date">Jan 12, 2024</span>
+                            </div>
+                        </div>
+                        <div class="achievement-item earned">
+                            <div class="achievement-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Data Contributor</h4>
+                                <p>Contributed to 20 data points</p>
+                                <span class="achievement-date">Jan 14, 2024</span>
+                            </div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <h4>Air Quality Master</h4>
+                                <p>Reach level 10</p>
+                                <span class="achievement-progress">70% complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Impact -->
+                <div class="dashboard-card impact-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Community Impact</h3>
+                        <span class="impact-period">Last 30 Days</span>
+                    </div>
+                    <div class="impact-chart">
+                        <canvas id="impactChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card activity-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <span class="activity-filter">
+                            <select id="activityFilter">
+                                <option value="all">All Activity</option>
+                                <option value="reports">Reports</option>
+                                <option value="challenges">Challenges</option>
+                                <option value="discussions">Discussions</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="activity-feed" id="activityFeed">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>You</strong> submitted a pollution report for <strong>Central Delhi</strong></p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>EcoWarrior7</strong> completed the <strong>Clean Air Week Challenge</strong></p>
+                                <span class="activity-time">4 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>GreenCitizen</strong> replied to <strong>Best air purifiers for Delhi homes</strong></p>
+                                <span class="activity-time">6 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>AirGuardian</strong> earned the <strong>Data Contributor</strong> badge</p>
+                                <span class="activity-time">8 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-content">
+                    <p>&copy; 2025 AirWatch AI. All rights reserved.</p>
+                    <p>Building a cleaner future together</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/simple-navigation.js"></script>
+    <script src="js/modern-ui.js" defer></script>
+    <script src="js/theme-toggle.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/community.js" defer></script>
+    <script src="js/charts.js" defer></script>
+</body>
+</html>

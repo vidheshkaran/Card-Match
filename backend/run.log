@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "C:\Users\Thoshini\Desktop\airwatch-ai2\airwatch-ai\airwatch-ai\backend\app.py", line 3, in <module>
+    from routes.overview import overview_bp
+  File "C:\Users\Thoshini\Desktop\airwatch-ai2\airwatch-ai\airwatch-ai\backend\routes\overview.py", line 7, in <module>
+    from utils.ai_models import PollutionForecaster, SourceIdentifier, PolicyRecommender
+  File "C:\Users\Thoshini\Desktop\airwatch-ai2\airwatch-ai\airwatch-ai\backend\utils\ai_models.py", line 2, in <module>
+    import pandas as pd
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\__init__.py", line 61, in <module>
+    from pandas.core.api import (
+    ...<62 lines>...
+    )
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\arrays\__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\arrays\arrow\__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\arrays\arrow\array.py", line 68, in <module>
+    from pandas.core.arrays.string_ import StringDtype
+  File "C:\Users\Thoshini\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\arrays\string_.py", line 71, in <module>
+    from pandas.io.formats import printing
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1022, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1155, in get_code
+  File "<frozen importlib._bootstrap_external>", line 784, in _compile_bytecode
+KeyboardInterrupt
+^C
